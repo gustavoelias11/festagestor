@@ -1,0 +1,28 @@
+package br.com.festagestor.controller;
+
+import br.com.festagestor.dto.DadosCadastroItem;
+import br.com.festagestor.model.Item;
+import br.com.festagestor.service.ItemService;
+import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequestMapping("/itens")
+public class ItemController {
+
+    @Autowired
+    private ItemService service;
+
+    @PostMapping
+    @Transactional
+        public ResponseEntity<Item> cadastrar(@RequestBody @Valid DadosCadastroItem dados) {
+        Item itemCriado = service.cadastrar(dados);
+        return ResponseEntity.ok(itemCriado);
+    }
+}
