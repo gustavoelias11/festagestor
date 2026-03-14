@@ -3,11 +3,13 @@ package br.com.festagestor.model;
 import br.com.festagestor.dto.DadosCadastroBrinquedo;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
 @DiscriminatorValue("Brinquedo")
 @NoArgsConstructor
+@Getter
 public class Brinquedo extends Item{
     private int capacidade;
     private String dimensao;

@@ -1,8 +1,6 @@
 package br.com.festagestor.service;
 
-import br.com.festagestor.dto.DadosCadastroBrinquedo;
-import br.com.festagestor.dto.DadosCadastroDecoracao;
-import br.com.festagestor.dto.DadosCadastroItem;
+import br.com.festagestor.dto.*;
 import br.com.festagestor.model.Brinquedo;
 import br.com.festagestor.model.Decoracao;
 import br.com.festagestor.model.Item;
@@ -10,12 +8,16 @@ import br.com.festagestor.repository.ItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class ItemService {
 
     @Autowired
     private ItemRepository repository;
 
+    //@PostMapping / Cadastrar
     public Item cadastrar(DadosCadastroItem dados) {
         if (dados instanceof DadosCadastroBrinquedo brinquedoDados) {
             Brinquedo brinquedo = new Brinquedo(brinquedoDados);
@@ -26,5 +28,22 @@ public class ItemService {
             return repository.save(decoracao);
         }
         return null;
+    }
+
+    //@GetMapping / Listar
+    public List<DadosListagemItem> listar() {
+        List<Item> itensDoBanco = repository.findAllByAtivoTrue();
+        List<DadosListagemItem> listaDeDtos = new ArrayList<>();
+
+        for (Item item : itensDoBanco) {
+            if (item instanceof Brinquedo brinquedo) {
+                DadosListagemBrinquedo listagemBrinquedo = new DadosListagemBrinquedo(brinquedo);
+                listaDeDtos.add(listagemBrinquedo);
+            } else if (item instanceof Decoracao decoracao) {
+                DadosListagemDecoracao listagemDecoracao = new DadosListagemDecoracao(decoracao);
+                listaDeDtos.add(listagemDecoracao);
+            }
+        }
+        return listaDeDtos;
     }
 }
