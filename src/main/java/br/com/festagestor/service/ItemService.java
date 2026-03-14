@@ -54,4 +54,21 @@ public class ItemService {
         Item item = repository.findById(id).orElseThrow(() -> new RuntimeException("Item não encontrado com o ID: " + id));
         item.inativar();
     }
+
+    //@PutMapping / Atualizar
+    @Transactional
+    public DadosListagemItem atualizar(Long id, DadosAtualizacaoItem atualizacaoItem) {
+        Item item = repository.findById(id).orElseThrow(() -> new RuntimeException("Item não encontrado com o ID: " + id));
+        if (item instanceof Brinquedo brinquedo && atualizacaoItem instanceof DadosAtualizacaoBrinquedo atualizacaoBrinquedo) {
+            brinquedo.atualizarInformacoes(atualizacaoBrinquedo);
+            DadosListagemBrinquedo listagem = new DadosListagemBrinquedo(brinquedo);
+            return listagem;
+        } else if (item instanceof Decoracao decoracao && atualizacaoItem instanceof DadosAtualizacaoDecoracao atualizacaoDecoracao) {
+            decoracao.atualizarInformacoes(atualizacaoDecoracao);
+            DadosListagemDecoracao listagemDecoracao = new DadosListagemDecoracao(decoracao);
+            return listagemDecoracao;
+        } else {
+            throw new IllegalArgumentException("\"Tipo de item incompatível com os dados de atualização enviados.\"");
+        }
+    }
 }

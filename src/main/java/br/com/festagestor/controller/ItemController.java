@@ -1,5 +1,6 @@
 package br.com.festagestor.controller;
 
+import br.com.festagestor.dto.DadosAtualizacaoItem;
 import br.com.festagestor.dto.DadosCadastroItem;
 import br.com.festagestor.dto.DadosListagemItem;
 import br.com.festagestor.model.Item;
@@ -35,5 +36,11 @@ public class ItemController {
     public ResponseEntity<Object> deletar(@PathVariable Long id) {
         service.excluir(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<DadosListagemItem> atualizar(@PathVariable Long id, @RequestBody @Valid DadosAtualizacaoItem atualizacaoItem) {
+        var retorno = service.atualizar(id, atualizacaoItem);
+        return ResponseEntity.ok(retorno);
     }
 }

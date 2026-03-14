@@ -1,5 +1,6 @@
 package br.com.festagestor.model;
 
+import br.com.festagestor.dto.DadosAtualizacaoItem;
 import br.com.festagestor.dto.DadosCadastroItem;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
