@@ -7,6 +7,7 @@ import br.com.festagestor.model.Item;
 import br.com.festagestor.repository.ItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,5 +46,12 @@ public class ItemService {
             }
         }
         return listaDeDtos;
+    }
+
+    //@DeleteMapping / Deletar
+    @Transactional
+    public void excluir(Long id) {
+        Item item = repository.findById(id).orElseThrow(() -> new RuntimeException("Item não encontrado com o ID: " + id));
+        item.inativar();
     }
 }

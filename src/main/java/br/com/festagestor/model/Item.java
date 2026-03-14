@@ -42,4 +42,8 @@ public abstract class Item {
         this.status = status;
         this.ativo = true;
     }
+
+    public void inativar() {
+        this.ativo = false;
+    }
 }

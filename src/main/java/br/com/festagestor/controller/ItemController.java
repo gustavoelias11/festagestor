@@ -30,4 +30,10 @@ public class ItemController {
     public List<DadosListagemItem> listar() {
         return service.listar();
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Object> deletar(@PathVariable Long id) {
+        service.excluir(id);
+        return ResponseEntity.noContent().build();
+    }
 }
