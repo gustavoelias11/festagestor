@@ -1,76 +1,62 @@
-# 🎪 FestaGestor API
+# FestaGestor - Back-end 🎈
 
-![Java](https://img.shields.io/badge/Java-21-orange.svg)
-![Spring Boot](https://img.shields.io/badge/Spring_Boot-3.x-brightgreen.svg)
-![MySQL](https://img.shields.io/badge/MySQL-8.0-blue.svg)
+> API RESTful desenvolvida em Java e Spring Boot para o gerenciamento eficiente de aluguel de artigos para festas (Brinquedos e Decorações).
 
-O **FestaGestor** é uma API REST desenvolvida em Java com Spring Boot para resolver os desafios logísticos e operacionais de uma empresa de aluguel de artigos para festas. O sistema substitui controles manuais, automatizando a gestão do acervo, o cadastro de clientes e o ciclo de vida dos contratos de aluguel.
-
-## 🚀 O Problema que Resolvemos
-Evitar o "overbooking" de itens (alugar o mesmo pula-pula para duas festas no mesmo dia), manter o histórico de clientes e ter controle absoluto sobre o que está no galpão disponível e o que está alugado.
+## 💻 Sobre o Projeto
+O **FestaGestor** é o motor de back-end (API) de uma plataforma de gestão de eventos. Ele foi projetado para lidar com o catálogo de itens de forma polimórfica, garantindo integridade de dados e escalabilidade para futuras implementações de clientes e contratos de aluguel.
 
 ## 🛠️ Tecnologias Utilizadas
-* **Java 21** (Core Logic e Orientação a Objetos avançada)
-* **Spring Boot** (Framework principal e criação da API REST)
-* **Spring Data JPA / Hibernate** (Persistência de dados e ORM)
-* **MySQL** (Banco de dados relacional)
-* **Lombok** (Redução de boilerplate de código)
+* **Linguagem:** Java 21
+* **Framework:** Spring Boot 3.x
+* **Persistência e ORM:** Spring Data JPA / Hibernate
+* **Banco de Dados:** MySQL
+* **Ferramentas:** Lombok (Redução de boilerplate), Jackson (Serialização JSON polimórfica)
 
-## 🏗️ Arquitetura e Modelagem de Dados
-Um dos grandes diferenciais técnicos deste projeto é a aplicação do princípio de **Polimorfismo e Herança** no banco de dados.
-O acervo é modelado com uma classe abstrata `Item`, que possui duas especializações: `Brinquedo` e `Decoracao`. 
+## 🧠 Arquitetura e Padrões Aplicados
+Este projeto não é apenas um CRUD básico. Foram aplicados padrões de mercado para garantir a qualidade do software:
 
-Para a persistência, utilizamos a estratégia JPA **Single Table** (`@Inheritance(strategy = InheritanceType.SINGLE_TABLE)`), otimizando consultas ao banco de dados e permitindo o uso de um único `ItemRepository` para todo o acervo, diferenciado pela coluna discriminadora `tipo_item`.
+* **Herança e Polimorfismo no Banco (SINGLE_TABLE):** Uso da classe abstrata `Item` mapeando para as classes filhas `Brinquedo` e `Decoracao` em uma única tabela, com colunas discriminadoras.
+* **Polimorfismo em JSON:** Configuração do Jackson (`@JsonTypeInfo`, `@JsonSubTypes`) para receber e devolver payloads diferentes dependendo do tipo do item.
+* **Pattern DTO (Data Transfer Object):** Isolamento total das Entidades de banco de dados. A API utiliza DTOs específicos para Cadastro, Atualização e Listagem, evitando vazamento de dados.
+* **Exclusão Lógica (Soft Delete):** Os registros não são apagados fisicamente do banco de dados (para não quebrar o histórico de relatórios e contratos futuros). O sistema utiliza uma flag `ativo` e *Query Methods* customizados (`findAllByAtivoTrue`) para ocultar itens excluídos.
+* **Pattern Matching (Java 21):** Uso do novo recurso de *Pattern Matching para instanceof* para conversões seguras e limpas entre Entidades e DTOs na camada de Service.
 
-## ⚙️ Como executar o projeto localmente
+## 🚀 Como Executar o Projeto
 
-### 1. Pré-requisitos
-* Java JDK 21+ instalado.
-* Servidor MySQL rodando localmente (na porta `3306`).
-* Maven instalado.
+### Pré-requisitos
+* Java 21 ou superior
+* Maven
+* MySQL Server rodando localmente (porta 3306)
 
-### 2. Configuração do Banco de Dados
-Antes de rodar a aplicação, crie um banco de dados no seu MySQL ou garanta que o seu arquivo `src/main/resources/application.properties` esteja configurado com as suas credenciais locais:
+### Passos para rodar
 
-```properties
-spring.datasource.url=jdbc:mysql://localhost:3306/festagestor_db?createDatabaseIfNotExist=true&serverTimezone=UTC
-spring.datasource.username=seu_usuario
-spring.datasource.password=sua_senha
-spring.jpa.hibernate.ddl-auto=update
-```
+1. Clone este repositório:
+   ```bash
+   git clone https://github.com/gustavoelias11/festagestor.git
+   ```
 
-### 3. Rodando a Aplicação
-Clone o repositório, navegue até a pasta raiz e execute:
+2. Acesse a pasta do projeto:
+   ```bash
+   cd FestaGestor-Backend
+   ```
 
-```bash
-mvn spring-boot:run
-```
+3. Configure as variáveis de ambiente do banco de dados:
+    * Vá até a pasta `src/main/resources/`.
+    * Faça uma cópia do arquivo `application.properties.example` e renomeie para `application.properties`.
+    * Preencha as credenciais do seu banco de dados local.
 
-A API estará disponível em `http://localhost:8080`.
+4. Execute a aplicação pela sua IDE ou via Maven:
+   ```bash
+   ./mvnw spring-boot:run
+   ```
 
-## 📌 Endpoints Principais (Acervo)
+## 📡 Endpoints Principais (API de Itens)
 
-**Criar um novo Item (Brinquedo)**
+Abaixo estão as rotas disponíveis no `ItemController` (`/itens`):
 
-`POST /item`
-
-O payload deve obrigatoriamente conter o campo tipo_item para que o Jackson instancie a subclasse correta.
-
-```bash
-{
-  "tipo_item": "Brinquedo",
-  "nome": "Cama Elástica",
-  "estoque": 2,
-  "disponivel": true,
-  "capacidade": 4
-}
-```
-
-**Deletar um Item**
-
-`DELETE /item/{id}`
-
-Deleta um item do acervo com base no seu ID gerado pelo banco.
-
-_Projeto em constante evolução como parte de aprimoramento em Arquitetura de Software e Java Backend._
-
+| Método | Rota         | Descrição                                         |
+| :---   | :---         | :---                                              |
+| GET    | `/itens`     | Lista todos os itens disponíveis (Soft Delete)    |
+| POST   | `/itens`     | Cadastra um novo item (Brinquedo ou Decoração)    |
+| PUT    | `/itens/{id}`| Atualiza os dados de um item existente            |
+| DELETE | `/itens/{id}`| Realiza a exclusão lógica (inativação) do item    |
