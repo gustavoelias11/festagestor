@@ -9,6 +9,6 @@ CREATE TABLE clientes (
     complemento VARCHAR(50),
     cidade VARCHAR(50) NOT NULL,
     uf VARCHAR(2) NOT NULL,
-    cep VARCHAR(20 NOT NULL,
+    cep VARCHAR(20) NOT NULL,
     ativo TINYINT(1) NOT NULL DEFAULT 1
 );
