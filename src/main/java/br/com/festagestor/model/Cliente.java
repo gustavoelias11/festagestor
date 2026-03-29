@@ -36,9 +36,6 @@ public class Cliente {
         if (dados.nome() != null) {
             this.nome = dados.nome();
         }
-        if (dados.cpf() != null) {
-            this.cpf = dados.cpf();
-        }
         if (dados.telefone() != null) {
             this.telefone = dados.telefone();
         }
