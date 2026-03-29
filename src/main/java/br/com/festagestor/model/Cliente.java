@@ -1,5 +1,6 @@
 package br.com.festagestor.model;
 
+import br.com.festagestor.dto.DadosAtualizacaoCliente;
 import br.com.festagestor.dto.DadosCadastroCliente;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -29,5 +30,20 @@ public class Cliente {
 
     public void inativar() {
         this.ativo = false;
+    }
+
+    public void atualizarInformacoes(DadosAtualizacaoCliente dados) {
+        if (dados.nome() != null) {
+            this.nome = dados.nome();
+        }
+        if (dados.cpf() != null) {
+            this.cpf = dados.cpf();
+        }
+        if (dados.telefone() != null) {
+            this.telefone = dados.telefone();
+        }
+        if (dados.endereco() != null) {
+            this.endereco.atualizarInformacoes(dados.endereco());
+        }
     }
 }
