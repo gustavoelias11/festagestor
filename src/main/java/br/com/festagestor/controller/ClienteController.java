@@ -2,7 +2,6 @@ package br.com.festagestor.controller;
 
 import br.com.festagestor.dto.DadosCadastroCliente;
 import br.com.festagestor.dto.DadosListagemCliente;
-import br.com.festagestor.dto.DadosListagemItem;
 import br.com.festagestor.service.ClienteService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,4 +30,9 @@ public class ClienteController {
         return ResponseEntity.ok(service.listar());
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletar(@PathVariable Long id) {
+        service.excluir(id);
+        return ResponseEntity.noContent().build();
+    }
 }

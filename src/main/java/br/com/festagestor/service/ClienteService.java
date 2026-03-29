@@ -6,6 +6,7 @@ import br.com.festagestor.model.Cliente;
 import br.com.festagestor.repository.ClienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,5 +27,11 @@ public class ClienteService {
         return repository.findAllByAtivoTrue().stream()
                 .map(DadosListagemCliente::new)
                 .toList();
+    }
+
+    @Transactional
+    public void excluir(Long id) {
+        Cliente cliente = repository.findById(id).orElseThrow(() -> new RuntimeException("Cliente não encontrado com o id: " + id));
+        cliente.inativar();
     }
 }
