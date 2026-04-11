@@ -4,5 +4,6 @@ public enum StatusAluguel {
     PENDENTE,
     CONFIRMADO,
     MONTADO,
-    FINALIZADO
+    FINALIZADO,
+    CANCELADO
 }

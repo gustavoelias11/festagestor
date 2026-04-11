@@ -13,12 +13,15 @@ import java.math.BigDecimal;
 public class AluguelItem {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @ManyToOne
     @JoinColumn(name = "aluguel_id")
     private Aluguel aluguel;
     @ManyToOne
     @JoinColumn(name = "item_id")
     private Item item;
+
     private BigDecimal precoUnitario;
+
     private Integer quantidade;
 }
