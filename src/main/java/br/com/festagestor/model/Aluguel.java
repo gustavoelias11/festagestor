@@ -17,8 +17,11 @@ public class Aluguel {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "data_criacao")
     private LocalDate dataCriacao;
+    @Column(name = "data_entrega")
     private LocalDateTime dataEntrega;
+    @Column(name = "data_retirada")
     private LocalDateTime dataRetirada;
 
     @Enumerated(EnumType.STRING)
@@ -30,6 +33,7 @@ public class Aluguel {
     @OneToMany(mappedBy = "aluguel", cascade = CascadeType.ALL)
     private List<AluguelItem> itens;
 
+    @Column(name = "valor_total")
     private BigDecimal valorTotal;
 
     @Embedded

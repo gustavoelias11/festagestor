@@ -21,6 +21,7 @@ public class AluguelItem {
     @JoinColumn(name = "item_id")
     private Item item;
 
+    @Column(name = "preco_unitario")
     private BigDecimal precoUnitario;
 
     private Integer quantidade;
