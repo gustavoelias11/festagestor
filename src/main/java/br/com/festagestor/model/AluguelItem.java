@@ -1,5 +1,6 @@
 package br.com.festagestor.model;
 
+import br.com.festagestor.dto.DadosCadastroAluguelItem;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,4 +26,11 @@ public class AluguelItem {
     private BigDecimal precoUnitario;
 
     private Integer quantidade;
+
+    public AluguelItem(Aluguel aluguel, Item item, DadosCadastroAluguelItem dadosCadastroAluguelItem) {
+        this.aluguel = aluguel;
+        this.item = item;
+        this.precoUnitario = item.getPrecoAluguel();
+        this.quantidade = dadosCadastroAluguelItem.quantidade();
+    }
 }
