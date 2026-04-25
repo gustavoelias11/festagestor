@@ -8,6 +8,8 @@ import br.com.festagestor.repository.AluguelRepository;
 import br.com.festagestor.repository.ClienteRepository;
 import br.com.festagestor.repository.ItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -39,6 +41,11 @@ public class AluguelService {
 
         aluguelRepository.save(aluguel);
         return new DadosDetalhamentoAluguel(aluguel);
+    }
+
+    //@GetMapping / Listar
+    public Page<DadosDetalhamentoAluguel> listar(Pageable paginacao) {
+        return aluguelRepository.findAll(paginacao).map(DadosDetalhamentoAluguel::new);
     }
 
     private Cliente buscarCliente(Long id) {
