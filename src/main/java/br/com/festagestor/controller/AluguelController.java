@@ -29,4 +29,9 @@ public class AluguelController {
     public ResponseEntity<Page<DadosDetalhamentoAluguel>> listar(@PageableDefault(size = 10, sort = {"dataCriacao"}) Pageable paginacao){
         return ResponseEntity.ok(service.listar(paginacao));
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<DadosDetalhamentoAluguel> buscarPorId(@PathVariable Long id) {
+        return ResponseEntity.ok(service.buscarPorId(id));
+    }
 }

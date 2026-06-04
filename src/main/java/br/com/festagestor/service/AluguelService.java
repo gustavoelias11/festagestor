@@ -48,6 +48,11 @@ public class AluguelService {
         return aluguelRepository.findAll(paginacao).map(DadosDetalhamentoAluguel::new);
     }
 
+    //GetMapping("/{id}") / buscarPorId
+    public DadosDetalhamentoAluguel buscarPorId(Long id) {
+        return aluguelRepository.findById(id).map(DadosDetalhamentoAluguel::new).orElseThrow(() -> new RuntimeException("Aluguel não encontrado com o id:" + id));
+    }
+
     private Cliente buscarCliente(Long id) {
         return clienteRepository.findById(id).orElseThrow(() -> new RuntimeException("Cliente não encontrado com o id: " + id));
     }
@@ -64,6 +69,20 @@ public class AluguelService {
         return itensDto.stream().map(itemDto -> {
             Item item = itemRepository.findById(itemDto.idItem())
                     .orElseThrow(() -> new RuntimeException("Item não encontrado com o id: " + itemDto.idItem()));
+
+            if (item.getStatus() != Status.DISPONIVEL) {
+                throw new RuntimeException(("O item " + item.getNome() + " não está disponível para aluguel"));
+            }
+
+            boolean dataOcupada = aluguelRepository.existsAluguelConflict(
+                    item.getId(),
+                    aluguel.getDataEntrega(),
+                    aluguel.getDataRetirada()
+            );
+            if (dataOcupada) {
+                throw new RuntimeException("O item " + item.getNome() + " está ocupado!");
+            }
+
             return new AluguelItem(aluguel, item, itemDto);
         }).toList();
     }
