@@ -68,4 +68,12 @@ public class Aluguel {
         }
         this.status = StatusAluguel.CANCELADO;
     }
+
+    public void finalizar() {
+        if (this.status != StatusAluguel.CONFIRMADO && this.status != StatusAluguel.MONTADO) {
+            throw new RuntimeException("Apenas aluguéis confirmados ou montados podem ser finalizados!");
+        }
+
+        this.status = StatusAluguel.FINALIZADO;
+    }
 }

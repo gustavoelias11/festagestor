@@ -44,4 +44,8 @@ public abstract class Item {
     public void inativar() {
         this.ativo = false;
     }
+
+    public void tornarDisponivel() {
+        this.status = Status.DISPONIVEL;
+    }
 }

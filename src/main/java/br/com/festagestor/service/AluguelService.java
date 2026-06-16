@@ -61,6 +61,18 @@ public class AluguelService {
         return new DadosDetalhamentoAluguel(aluguel);
     }
 
+    //PatchMapping("/{id}/finalizar") / finalizarAluguel
+    @Transactional
+    public DadosDetalhamentoAluguel finalizarAluguel(Long id) {
+        var aluguel = aluguelRepository.findById(id).orElseThrow(() -> new RuntimeException("Aluguel não encontrado com o id: " + id));
+        aluguel.finalizar();
+        aluguel.getItens().forEach(aluguelItem -> {
+            var item = aluguelItem.getItem();
+            item.tornarDisponivel();
+        });
+        return new DadosDetalhamentoAluguel(aluguel);
+    }
+
     private Cliente buscarCliente(Long id) {
         return clienteRepository.findById(id).orElseThrow(() -> new RuntimeException("Cliente não encontrado com o id: " + id));
     }

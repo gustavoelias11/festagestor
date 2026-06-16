@@ -39,4 +39,9 @@ public class AluguelController {
     public ResponseEntity<DadosDetalhamentoAluguel> cancelar(@PathVariable Long id) {
         return ResponseEntity.ok(service.cancelarAluguel(id));
     }
+
+    @PatchMapping("/{id}/finalizar")
+    public ResponseEntity<DadosDetalhamentoAluguel> finalizar(@PathVariable Long id) {
+        return ResponseEntity.ok(service.finalizarAluguel(id));
+    }
 }
