@@ -61,4 +61,11 @@ public class Aluguel {
             this.valorTotal = this.valorTotal.add(subTotal);
         }
     }
+
+    public void cancelar() {
+        if (this.status != StatusAluguel.PENDENTE) {
+            throw new RuntimeException("Apenas aluguéis pendentes podem ser cancelados!");
+        }
+        this.status = StatusAluguel.CANCELADO;
+    }
 }

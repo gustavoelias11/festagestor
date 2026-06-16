@@ -34,4 +34,9 @@ public class AluguelController {
     public ResponseEntity<DadosDetalhamentoAluguel> buscarPorId(@PathVariable Long id) {
         return ResponseEntity.ok(service.buscarPorId(id));
     }
+
+    @PatchMapping("/{id}/cancelar")
+    public ResponseEntity<DadosDetalhamentoAluguel> cancelar(@PathVariable Long id) {
+        return ResponseEntity.ok(service.cancelarAluguel(id));
+    }
 }
