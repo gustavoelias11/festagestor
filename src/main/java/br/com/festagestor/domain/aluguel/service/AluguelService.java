@@ -18,6 +18,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.PatchMapping;
 
 import java.util.List;
 
@@ -88,6 +89,14 @@ public class AluguelService {
             var item = aluguelItem.getItem();
             item.tornarAlugado();
         });
+        return new DadosDetalhamentoAluguel(aluguel);
+    }
+
+    //@PatchMapping("/{id}/confirmar") / confirmarAluguel
+    @Transactional
+    public DadosDetalhamentoAluguel confirmarAluguel(Long id) {
+        var aluguel = aluguelRepository.findById(id).orElseThrow(() -> new RuntimeException("Aluguel não encontrado com o id: " + id));
+        aluguel.confirmar();
         return new DadosDetalhamentoAluguel(aluguel);
     }
 

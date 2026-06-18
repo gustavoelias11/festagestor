@@ -49,4 +49,9 @@ public class AluguelController {
     public ResponseEntity<DadosDetalhamentoAluguel> montar(@PathVariable Long id) {
         return ResponseEntity.ok(service.montarAluguel(id));
     }
+
+    @PatchMapping("/{id}/confirmar")
+    public ResponseEntity<DadosDetalhamentoAluguel> confirmar(@PathVariable Long id) {
+        return ResponseEntity.ok(service.confirmarAluguel(id));
+    }
 }

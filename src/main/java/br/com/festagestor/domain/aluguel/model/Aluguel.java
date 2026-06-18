@@ -86,4 +86,12 @@ public class Aluguel {
             throw new RuntimeException("Apenas aluguéis confirmados podem ser montados!");
         }
     }
+
+    public void confirmar() {
+        if (this.status == StatusAluguel.PENDENTE) {
+            this.status = StatusAluguel.CONFIRMADO;
+        } else {
+            throw new RuntimeException("Apenas aluguéis pendentes podem ser confirmados!");
+        }
+    }
 }
