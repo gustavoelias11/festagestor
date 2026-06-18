@@ -12,6 +12,7 @@ import br.com.festagestor.domain.item.model.Status;
 import br.com.festagestor.domain.aluguel.repository.AluguelRepository;
 import br.com.festagestor.domain.cliente.repository.ClienteRepository;
 import br.com.festagestor.domain.item.repository.ItemRepository;
+import org.jspecify.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -74,6 +75,18 @@ public class AluguelService {
         aluguel.getItens().forEach(aluguelItem -> {
             var item = aluguelItem.getItem();
             item.tornarDisponivel();
+        });
+        return new DadosDetalhamentoAluguel(aluguel);
+    }
+
+    //@PatchMapping("/{id}/montagem") / montarAluguel
+    @Transactional
+    public DadosDetalhamentoAluguel montarAluguel(Long id) {
+        var aluguel = aluguelRepository.findById(id).orElseThrow(() -> new RuntimeException("Aluguel não encontrado com o id: " + id));
+        aluguel.montar();
+        aluguel.getItens().forEach(aluguelItem -> {
+            var item = aluguelItem.getItem();
+            item.tornarAlugado();
         });
         return new DadosDetalhamentoAluguel(aluguel);
     }
