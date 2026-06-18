@@ -44,4 +44,9 @@ public class AluguelController {
     public ResponseEntity<DadosDetalhamentoAluguel> finalizar(@PathVariable Long id) {
         return ResponseEntity.ok(service.finalizarAluguel(id));
     }
+
+    @PatchMapping("/{id}/montagem")
+    public ResponseEntity<DadosDetalhamentoAluguel> montar(@PathVariable Long id) {
+        return ResponseEntity.ok(service.montarAluguel(id));
+    }
 }

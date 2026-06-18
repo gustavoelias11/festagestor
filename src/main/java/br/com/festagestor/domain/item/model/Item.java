@@ -48,4 +48,8 @@ public abstract class Item {
     public void tornarDisponivel() {
         this.status = Status.DISPONIVEL;
     }
+
+    public void tornarAlugado() {
+        this.status = Status.ALUGADO;
+    }
 }

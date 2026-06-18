@@ -78,4 +78,12 @@ public class Aluguel {
 
         this.status = StatusAluguel.FINALIZADO;
     }
+
+    public void montar() {
+        if (this.status == StatusAluguel.CONFIRMADO) {
+            this.status = StatusAluguel.MONTADO;
+        } else {
+            throw new RuntimeException("Apenas aluguéis confirmados podem ser montados!");
+        }
+    }
 }
