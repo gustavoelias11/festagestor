@@ -5,6 +5,7 @@ import br.com.festagestor.domain.aluguel.model.AluguelItem;
 import br.com.festagestor.domain.aluguel.dto.DadosCadastroAluguel;
 import br.com.festagestor.domain.aluguel.dto.DadosCadastroAluguelItem;
 import br.com.festagestor.domain.aluguel.dto.DadosDetalhamentoAluguel;
+import br.com.festagestor.domain.aluguel.model.StatusAluguel;
 import br.com.festagestor.domain.cliente.model.Cliente;
 import br.com.festagestor.domain.shared.endereco.Endereco;
 import br.com.festagestor.domain.item.model.Item;
@@ -65,6 +66,10 @@ public class AluguelService {
     public DadosDetalhamentoAluguel cancelarAluguel(Long id) {
         var aluguel = aluguelRepository.findById(id).orElseThrow(() -> new RuntimeException("Aluguel não encontrado com o id: " + id));
         aluguel.cancelar();
+        aluguel.getItens().forEach(aluguelItem -> {
+            var item = aluguelItem.getItem();
+            item.tornarDisponivel();
+        });
         return new DadosDetalhamentoAluguel(aluguel);
     }
 
@@ -117,14 +122,15 @@ public class AluguelService {
             Item item = itemRepository.findById(itemDto.idItem())
                     .orElseThrow(() -> new RuntimeException("Item não encontrado com o id: " + itemDto.idItem()));
 
-            if (item.getStatus() != Status.DISPONIVEL) {
+            if (item.getStatus() == Status.MANUTENCAO) {
                 throw new RuntimeException(("O item " + item.getNome() + " não está disponível para aluguel"));
             }
 
             boolean dataOcupada = aluguelRepository.existsAluguelConflict(
                     item.getId(),
                     aluguel.getDataEntrega(),
-                    aluguel.getDataRetirada()
+                    aluguel.getDataRetirada(),
+                    StatusAluguel.CANCELADO
             );
             if (dataOcupada) {
                 throw new RuntimeException("O item " + item.getNome() + " está ocupado!");

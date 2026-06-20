@@ -1,6 +1,7 @@
 package br.com.festagestor.domain.aluguel.repository;
 
 import br.com.festagestor.domain.aluguel.model.Aluguel;
+import br.com.festagestor.domain.aluguel.model.StatusAluguel;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -14,8 +15,10 @@ public interface AluguelRepository extends JpaRepository<Aluguel, Long> {
         WHERE ai.item.id = :itemId
         AND ai.aluguel.dataEntrega <= :dataRetiradaNova
         AND ai.aluguel.dataRetirada >= :dataEntregaNova
+        AND ai.aluguel.status <> :statusCancelado
         """)
     boolean existsAluguelConflict(@Param("itemId") Long itemId,
                                   @Param("dataEntregaNova") LocalDateTime dataEntregaNova,
-                                  @Param("dataRetiradaNova") LocalDateTime dataRetiradaNova);
+                                  @Param("dataRetiradaNova") LocalDateTime dataRetiradaNova,
+                                  @Param("statusCancelado") StatusAluguel statusAluguel);
 }
