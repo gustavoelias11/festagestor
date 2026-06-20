@@ -65,8 +65,8 @@ public class Aluguel {
     }
 
     public void cancelar() {
-        if (this.status != StatusAluguel.PENDENTE) {
-            throw new RuntimeException("Apenas aluguéis pendentes podem ser cancelados!");
+        if (this.status == StatusAluguel.FINALIZADO) {
+            throw new RuntimeException("Aluguel finalizado não pode ser cancelados!");
         }
         this.status = StatusAluguel.CANCELADO;
     }
