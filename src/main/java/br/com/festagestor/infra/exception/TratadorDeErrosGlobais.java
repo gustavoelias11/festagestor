@@ -1,5 +1,7 @@
 package br.com.festagestor.infra.exception;
 
+import br.com.festagestor.domain.shared.exception.IdNaoEncontradoException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -27,5 +29,10 @@ public class TratadorDeErrosGlobais {
         String message = "Corpo da requisição ausente ou mal formatado.";
 
         return ResponseEntity.badRequest().body(new ErroPadraoDTO(message));
+    }
+
+    @ExceptionHandler(IdNaoEncontradoException.class)
+    public ResponseEntity<ErroPadraoDTO> tratarErroId(IdNaoEncontradoException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErroPadraoDTO(ex.getMessage()));
     }
 }
