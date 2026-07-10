@@ -13,6 +13,8 @@ import br.com.festagestor.domain.item.model.Status;
 import br.com.festagestor.domain.aluguel.repository.AluguelRepository;
 import br.com.festagestor.domain.cliente.repository.ClienteRepository;
 import br.com.festagestor.domain.item.repository.ItemRepository;
+import br.com.festagestor.domain.shared.exception.IdNaoEncontradoException;
+import br.com.festagestor.domain.shared.exception.RegraDeNegocioException;
 import org.jspecify.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -58,13 +60,13 @@ public class AluguelService {
 
     //GetMapping("/{id}") / buscarPorId
     public DadosDetalhamentoAluguel buscarPorId(Long id) {
-        return aluguelRepository.findById(id).map(DadosDetalhamentoAluguel::new).orElseThrow(() -> new RuntimeException("Aluguel não encontrado com o id:" + id));
+        return aluguelRepository.findById(id).map(DadosDetalhamentoAluguel::new).orElseThrow(() -> new IdNaoEncontradoException("Aluguel", id));
     }
 
     //PatchMapping("/{id}/cancelar") / cancelarAluguel
     @Transactional
     public DadosDetalhamentoAluguel cancelarAluguel(Long id) {
-        var aluguel = aluguelRepository.findById(id).orElseThrow(() -> new RuntimeException("Aluguel não encontrado com o id: " + id));
+        var aluguel = aluguelRepository.findById(id).orElseThrow(() -> new IdNaoEncontradoException("Aluguel", id));
         aluguel.cancelar();
         aluguel.getItens().forEach(aluguelItem -> {
             var item = aluguelItem.getItem();
@@ -76,7 +78,7 @@ public class AluguelService {
     //PatchMapping("/{id}/finalizar") / finalizarAluguel
     @Transactional
     public DadosDetalhamentoAluguel finalizarAluguel(Long id) {
-        var aluguel = aluguelRepository.findById(id).orElseThrow(() -> new RuntimeException("Aluguel não encontrado com o id: " + id));
+        var aluguel = aluguelRepository.findById(id).orElseThrow(() -> new IdNaoEncontradoException("Aluguel", id));
         aluguel.finalizar();
         aluguel.getItens().forEach(aluguelItem -> {
             var item = aluguelItem.getItem();
@@ -88,7 +90,7 @@ public class AluguelService {
     //@PatchMapping("/{id}/montagem") / montarAluguel
     @Transactional
     public DadosDetalhamentoAluguel montarAluguel(Long id) {
-        var aluguel = aluguelRepository.findById(id).orElseThrow(() -> new RuntimeException("Aluguel não encontrado com o id: " + id));
+        var aluguel = aluguelRepository.findById(id).orElseThrow(() -> new IdNaoEncontradoException("Aluguel", id));
         aluguel.montar();
         aluguel.getItens().forEach(aluguelItem -> {
             var item = aluguelItem.getItem();
@@ -100,19 +102,18 @@ public class AluguelService {
     //@PatchMapping("/{id}/confirmar") / confirmarAluguel
     @Transactional
     public DadosDetalhamentoAluguel confirmarAluguel(Long id) {
-        var aluguel = aluguelRepository.findById(id).orElseThrow(() -> new RuntimeException("Aluguel não encontrado com o id: " + id));
+        var aluguel = aluguelRepository.findById(id).orElseThrow(() -> new IdNaoEncontradoException("Aluguel", id));
         aluguel.confirmar();
         return new DadosDetalhamentoAluguel(aluguel);
     }
 
     private Cliente buscarCliente(Long id) {
-        return clienteRepository.findById(id).orElseThrow(() -> new RuntimeException("Cliente não encontrado com o id: " + id));
+        return clienteRepository.findById(id).orElseThrow(() -> new RegraDeNegocioException("Cliente não encontrado com o id: " + id));
     }
 
     private Endereco obterEndereco(DadosCadastroAluguel dados, Cliente cliente) {
-        Endereco endereco;
         if (dados.endereco() != null) {
-            return endereco = new Endereco(dados.endereco());
+            return new Endereco(dados.endereco());
         }
         return cliente.getEndereco();
     }
@@ -120,10 +121,10 @@ public class AluguelService {
     private List<AluguelItem> mapearItens(List<DadosCadastroAluguelItem> itensDto, Aluguel aluguel) {
         return itensDto.stream().map(itemDto -> {
             Item item = itemRepository.findById(itemDto.idItem())
-                    .orElseThrow(() -> new RuntimeException("Item não encontrado com o id: " + itemDto.idItem()));
+                    .orElseThrow(() -> new RegraDeNegocioException("Item não encontrado com o id: " + itemDto.idItem()));
 
             if (item.getStatus() == Status.MANUTENCAO) {
-                throw new RuntimeException(("O item " + item.getNome() + " não está disponível para aluguel"));
+                throw new RegraDeNegocioException(("O item " + item.getNome() + " não está disponível para aluguel"));
             }
 
             boolean dataOcupada = aluguelRepository.existsAluguelConflict(
@@ -133,7 +134,7 @@ public class AluguelService {
                     StatusAluguel.CANCELADO
             );
             if (dataOcupada) {
-                throw new RuntimeException("O item " + item.getNome() + " está ocupado!");
+                throw new RegraDeNegocioException("O item " + item.getNome() + " está ocupado!");
             }
 
             return new AluguelItem(aluguel, item, itemDto);

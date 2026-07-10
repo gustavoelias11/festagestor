@@ -1,6 +1,7 @@
 package br.com.festagestor.infra.exception;
 
 import br.com.festagestor.domain.shared.exception.IdNaoEncontradoException;
+import br.com.festagestor.domain.shared.exception.RegraDeNegocioException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -34,5 +35,10 @@ public class TratadorDeErrosGlobais {
     @ExceptionHandler(IdNaoEncontradoException.class)
     public ResponseEntity<ErroPadraoDTO> tratarErroId(IdNaoEncontradoException ex) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErroPadraoDTO(ex.getMessage()));
+    }
+
+    @ExceptionHandler(RegraDeNegocioException.class)
+    public ResponseEntity<ErroPadraoDTO> tratarErroRegraDeNegocio(RegraDeNegocioException ex) {
+        return ResponseEntity.status(HttpStatus.UNPROCESSABLE_CONTENT).body(new ErroPadraoDTO(ex.getMessage()));
     }
 }
