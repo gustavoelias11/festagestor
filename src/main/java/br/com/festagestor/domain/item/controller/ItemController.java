@@ -3,6 +3,7 @@ package br.com.festagestor.domain.item.controller;
 import br.com.festagestor.domain.item.dto.DadosAtualizacaoItem;
 import br.com.festagestor.domain.item.dto.DadosCadastroItem;
 import br.com.festagestor.domain.item.dto.DadosListagemItem;
+import br.com.festagestor.domain.item.dto.DadosStatusItem;
 import br.com.festagestor.domain.item.model.Item;
 import br.com.festagestor.domain.item.service.ItemService;
 import jakarta.validation.Valid;
@@ -42,5 +43,10 @@ public class ItemController {
     public ResponseEntity<DadosListagemItem> atualizar(@PathVariable Long id, @RequestBody @Valid DadosAtualizacaoItem atualizacaoItem) {
         var retorno = service.atualizar(id, atualizacaoItem);
         return ResponseEntity.ok(retorno);
+    }
+
+    @PatchMapping("/{id}/manutencao")
+    public ResponseEntity<DadosStatusItem> colocarEmManutencao(@PathVariable Long id) {
+        return ResponseEntity.ok(service.colocarEmManutencao(id));
     }
 }

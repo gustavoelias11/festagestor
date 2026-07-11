@@ -4,8 +4,10 @@ import br.com.festagestor.domain.item.dto.*;
 import br.com.festagestor.domain.item.model.Brinquedo;
 import br.com.festagestor.domain.item.model.Decoracao;
 import br.com.festagestor.domain.item.model.Item;
+import br.com.festagestor.domain.item.model.Status;
 import br.com.festagestor.domain.item.repository.ItemRepository;
 import br.com.festagestor.domain.shared.exception.IdNaoEncontradoException;
+import org.jspecify.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -71,5 +73,12 @@ public class ItemService {
         } else {
             throw new IllegalArgumentException("\"Tipo de item incompatível com os dados de atualização enviados.\"");
         }
+    }
+
+    @Transactional
+    public DadosStatusItem colocarEmManutencao(Long id) {
+        var item = repository.findById(id).orElseThrow(() -> new IdNaoEncontradoException("Item", id));
+        item.colocarEmManutencao();
+        return new DadosStatusItem(item);
     }
 }
