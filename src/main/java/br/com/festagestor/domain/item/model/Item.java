@@ -1,6 +1,7 @@
 package br.com.festagestor.domain.item.model;
 
 
+import br.com.festagestor.domain.shared.exception.RegraDeNegocioException;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -51,5 +52,12 @@ public abstract class Item {
 
     public void tornarAlugado() {
         this.status = Status.ALUGADO;
+    }
+
+    public void colocarEmManutencao() {
+        if (this.status != Status.DISPONIVEL) {
+            throw new RegraDeNegocioException("Item não está disponível para entrar em manutenção!");
+        }
+        this.status = Status.MANUTENCAO;
     }
 }
