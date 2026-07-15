@@ -23,20 +23,6 @@ public class ItemService {
     private ItemRepository repository;
 
     //@PostMapping / Cadastrar
-    /*
-    public Item cadastrar(DadosCadastroItem dados) {
-        if (dados instanceof DadosCadastroBrinquedo brinquedoDados) {
-            Brinquedo brinquedo = new Brinquedo(brinquedoDados);
-            return repository.save(brinquedo);
-        }
-        if (dados instanceof DadosCadastroDecoracao decoracaoDados) {
-            Decoracao decoracao = new Decoracao(decoracaoDados);
-            return repository.save(decoracao);
-        }
-        return null;
-    }
-    */
-    //@PostMapping / Cadastrar
     @Transactional
     public List<DadosListagemItem> cadastrar(DadosCadastroItem dados) {
         List<Item> listaDeItens = new ArrayList<>();
