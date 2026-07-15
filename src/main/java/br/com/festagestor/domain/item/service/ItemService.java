@@ -7,6 +7,7 @@ import br.com.festagestor.domain.item.model.Item;
 import br.com.festagestor.domain.item.model.Status;
 import br.com.festagestor.domain.item.repository.ItemRepository;
 import br.com.festagestor.domain.shared.exception.IdNaoEncontradoException;
+import br.com.festagestor.domain.shared.exception.RegraDeNegocioException;
 import org.jspecify.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,7 @@ public class ItemService {
     private ItemRepository repository;
 
     //@PostMapping / Cadastrar
+    /*
     public Item cadastrar(DadosCadastroItem dados) {
         if (dados instanceof DadosCadastroBrinquedo brinquedoDados) {
             Brinquedo brinquedo = new Brinquedo(brinquedoDados);
@@ -32,6 +34,25 @@ public class ItemService {
             return repository.save(decoracao);
         }
         return null;
+    }
+    */
+    //@PostMapping / Cadastrar
+    @Transactional
+    public List<DadosListagemItem> cadastrar(DadosCadastroItem dados) {
+        List<Item> listaDeItens = new ArrayList<>();
+
+        for (int i = 0; i < dados.quantidade(); i++) {
+            listaDeItens.add(dados.instanciarEntidade());
+        }
+
+        repository.saveAll(listaDeItens);
+        return listaDeItens.stream()
+                .map(item -> switch (item) {
+                    case Brinquedo brinquedo -> (DadosListagemItem) new DadosListagemBrinquedo(brinquedo);
+                    case Decoracao decoracao -> (DadosListagemItem) new DadosListagemDecoracao(decoracao);
+                    default -> throw new RegraDeNegocioException("Tipo desconhecido!");
+                })
+                .toList();
     }
 
     //@GetMapping / Listar

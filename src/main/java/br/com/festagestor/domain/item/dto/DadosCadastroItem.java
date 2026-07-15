@@ -1,5 +1,6 @@
 package br.com.festagestor.domain.item.dto;
 
+import br.com.festagestor.domain.item.model.Item;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
@@ -14,4 +15,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 })
 
 public interface DadosCadastroItem{
+    Item instanciarEntidade();
+
+    int quantidade();
 }

@@ -7,6 +7,8 @@ import jakarta.persistence.Entity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
+
 @Entity
 @DiscriminatorValue("Brinquedo")
 @NoArgsConstructor
@@ -15,10 +17,11 @@ public class Brinquedo extends Item{
     private int capacidade;
     private String dimensao;
 
-    public Brinquedo(DadosCadastroBrinquedo dados) {
-        super(dados.nome(), dados.descricao(), dados.precoAluguel(), dados.status());
-        this.capacidade = dados.capacidade();
-        this.dimensao = dados.dimensao();
+    //this.nome, this.descricao, this.precoAluguel, this.status, this.capacidade, this.dimensao
+    public Brinquedo(String nome, String descricao, BigDecimal precoAluguel, Status status, int capacidade, String dimensao) {
+        super(nome, descricao, precoAluguel, status);
+        this.capacidade = capacidade;
+        this.dimensao = dimensao;
     }
 
     public void atualizarInformacoes(DadosAtualizacaoBrinquedo dados) {
