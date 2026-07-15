@@ -1,62 +1,46 @@
-# FestaGestor - Back-end 🎈
+<div align="center">
+  <h1>🎈 FestaGestor</h1>
+  <p><b>Sistema de Gestão de Estoque e Locação para Eventos</b></p>
+  
+  [![Java](https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=java&logoColor=white)](https://java.com/)
+  [![Spring Boot](https://img.shields.io/badge/Spring_Boot-6DB33F?style=for-the-badge&logo=spring&logoColor=white)](https://spring.io/projects/spring-boot)
+  [![MySQL / SQL Server](https://img.shields.io/badge/Database-4479A1?style=for-the-badge&logo=mysql&logoColor=white)](#)
+</div>
 
-> API RESTful desenvolvida em Java e Spring Boot para o gerenciamento eficiente de aluguel de artigos para festas (Brinquedos e Decorações).
+<br>
 
-## 💻 Sobre o Projeto
-O **FestaGestor** é o motor de back-end (API) de uma plataforma de gestão de eventos. Ele foi projetado para lidar com o catálogo de itens de forma polimórfica, garantindo integridade de dados e escalabilidade para futuras implementações de clientes e contratos de aluguel.
+## 📖 Sobre o Projeto
+
+O **FestaGestor** é uma solução de software desenvolvida para digitalizar e otimizar a gestão de um negócio familiar de locação de artigos para festas (como camas elásticas, brinquedos infantis e decorações). 
+
+Nascido de uma necessidade real, o sistema visa substituir controles manuais por uma plataforma centralizada que ofereça visão clara do estoque, histórico de clientes e gestão do ciclo de vida dos aluguéis, garantindo maior organização e escalabilidade para o negócio.
+
+## 🚀 Principais Funcionalidades
+
+- **📦 Gestão de Estoque:** Controle de disponibilidade de itens de decoração e brinquedos.
+- **🤝 Gestão de Locação:** Criação de contratos de aluguel associando clientes, itens e datas.
+- **👥 Cadastro de Clientes:** Manutenção de um histórico de locatários e informações de contato.
+- **📊 Controle de Status:** Acompanhamento em tempo real do status de cada aluguel (Pendente, Em Andamento, Concluído, Cancelado).
 
 ## 🛠️ Tecnologias Utilizadas
-* **Linguagem:** Java 21
-* **Framework:** Spring Boot 3.x
-* **Persistência e ORM:** Spring Data JPA / Hibernate
-* **Banco de Dados:** MySQL
-* **Ferramentas:** Lombok (Redução de boilerplate), Jackson (Serialização JSON polimórfica)
 
-## 🧠 Arquitetura e Padrões Aplicados
-Este projeto não é apenas um CRUD básico. Foram aplicados padrões de mercado para garantir a qualidade do software:
+Este projeto está sendo construído com foco em **Clean Code**, boas práticas de **Arquitetura de Software** e utilização de recursos modernos da linguagem.
 
-* **Herança e Polimorfismo no Banco (SINGLE_TABLE):** Uso da classe abstrata `Item` mapeando para as classes filhas `Brinquedo` e `Decoracao` em uma única tabela, com colunas discriminadoras.
-* **Polimorfismo em JSON:** Configuração do Jackson (`@JsonTypeInfo`, `@JsonSubTypes`) para receber e devolver payloads diferentes dependendo do tipo do item.
-* **Pattern DTO (Data Transfer Object):** Isolamento total das Entidades de banco de dados. A API utiliza DTOs específicos para Cadastro, Atualização e Listagem, evitando vazamento de dados.
-* **Exclusão Lógica (Soft Delete):** Os registros não são apagados fisicamente do banco de dados (para não quebrar o histórico de relatórios e contratos futuros). O sistema utiliza uma flag `ativo` e *Query Methods* customizados (`findAllByAtivoTrue`) para ocultar itens excluídos.
-* **Pattern Matching (Java 21):** Uso do novo recurso de *Pattern Matching para instanceof* para conversões seguras e limpas entre Entidades e DTOs na camada de Service.
+- **Linguagem:** Java
+- **Framework:** Spring Boot
+- **Persistência:** Spring Data JPA / Hibernate
+- **Banco de Dados:** MySQL - Banco de Dados Relacional
+- **Gerenciamento de Dependências:** Maven
 
-## 🚀 Como Executar o Projeto
+## 💡 Aprendizados e Práticas Aplicadas
 
-### Pré-requisitos
-* Java 21 ou superior
-* Maven
-* MySQL Server rodando localmente (porta 3306)
+Como um projeto em constante evolução, o FestaGestor serve como laboratório prático para:
+- Desenvolvimento de APIs RESTful estruturadas e semânticas.
+- Mapeamento Objeto-Relacional (ORM) complexo (relacionamentos N:N, 1:N).
+- Tratamento global de exceções para respostas HTTP padronizadas.
+- Aplicação de princípios SOLID e Clean Code para manter a base de código legível e sustentável.
 
-### Passos para rodar
-
-1. Clone este repositório:
-   ```bash
-   git clone https://github.com/gustavoelias11/festagestor.git
-   ```
-
-2. Acesse a pasta do projeto:
-   ```bash
-   cd FestaGestor-Backend
-   ```
-
-3. Configure as variáveis de ambiente do banco de dados:
-    * Vá até a pasta `src/main/resources/`.
-    * Faça uma cópia do arquivo `application.properties.example` e renomeie para `application.properties`.
-    * Preencha as credenciais do seu banco de dados local.
-
-4. Execute a aplicação pela sua IDE ou via Maven:
-   ```bash
-   ./mvnw spring-boot:run
-   ```
-
-## 📡 Endpoints Principais (API de Itens)
-
-Abaixo estão as rotas disponíveis no `ItemController` (`/itens`):
-
-| Método | Rota         | Descrição                                         |
-| :---   | :---         | :---                                              |
-| GET    | `/itens`     | Lista todos os itens disponíveis (Soft Delete)    |
-| POST   | `/itens`     | Cadastra um novo item (Brinquedo ou Decoração)    |
-| PUT    | `/itens/{id}`| Atualiza os dados de um item existente            |
-| DELETE | `/itens/{id}`| Realiza a exclusão lógica (inativação) do item    |
+---
+<div align="center">
+  Desenvolvido por Gustavo Manoel Elias. 🚀
+</div>
