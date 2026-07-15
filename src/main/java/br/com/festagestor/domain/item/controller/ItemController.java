@@ -23,8 +23,8 @@ public class ItemController {
 
     @PostMapping
     @Transactional
-        public ResponseEntity<Item> cadastrar(@RequestBody @Valid DadosCadastroItem dados) {
-        Item itemCriado = service.cadastrar(dados);
+        public ResponseEntity<List<DadosListagemItem>> cadastrar(@RequestBody @Valid DadosCadastroItem dados) {
+        var itemCriado = service.cadastrar(dados);
         return ResponseEntity.ok(itemCriado);
     }
 

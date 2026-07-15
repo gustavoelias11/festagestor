@@ -1,11 +1,12 @@
 package br.com.festagestor.domain.item.model;
 
 import br.com.festagestor.domain.item.dto.DadosAtualizacaoDecoracao;
-import br.com.festagestor.domain.item.dto.DadosCadastroDecoracao;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.math.BigDecimal;
 
 @Entity
 @DiscriminatorValue("Decoracao")
@@ -14,9 +15,9 @@ import lombok.NoArgsConstructor;
 public class Decoracao extends Item{
     private String tema;
 
-    public Decoracao(DadosCadastroDecoracao dados) {
-        super(dados.nome(), dados.descricao(), dados.precoAluguel(), dados.status());
-        this.tema = dados.tema();
+    public Decoracao(String nome, String descricao, BigDecimal preco, Status status, String tema) {
+        super(nome, descricao, preco, status);
+        this.tema = tema;
     }
 
     public void atualizarInformacoes(DadosAtualizacaoDecoracao dados) {
