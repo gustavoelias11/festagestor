@@ -38,6 +38,12 @@ public class Aluguel {
     @OneToMany(mappedBy = "aluguel", cascade = CascadeType.ALL)
     private List<AluguelItem> itens;
 
+    @Column(name = "acrescimo")
+    private BigDecimal valorAcrescimo;
+    @Column(name = "desconto")
+    private BigDecimal valorDesconto;
+    @Column(name = "valor_frete")
+    private BigDecimal valorFrete;
     @Column(name = "valor_total")
     private BigDecimal valorTotal;
 
@@ -51,6 +57,9 @@ public class Aluguel {
         this.status = StatusAluguel.PENDENTE;
         this.cliente = cliente;
         this.endereco = endereco;
+        this.valorAcrescimo = BigDecimal.ZERO;
+        this.valorDesconto = BigDecimal.ZERO;
+        this.valorFrete = BigDecimal.ZERO;
     }
 
     public void calcularValorTotal() {
@@ -62,6 +71,7 @@ public class Aluguel {
             subTotal = item.getPrecoUnitario().multiply(BigDecimal.valueOf(item.getQuantidade()));
             this.valorTotal = this.valorTotal.add(subTotal);
         }
+        this.valorTotal = this.valorTotal.add(valorAcrescimo).add(valorFrete).subtract(valorDesconto);
     }
 
     public void cancelar() {
