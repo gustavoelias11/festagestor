@@ -57,9 +57,9 @@ public class Aluguel {
         this.status = StatusAluguel.PENDENTE;
         this.cliente = cliente;
         this.endereco = endereco;
-        this.valorAcrescimo = BigDecimal.ZERO;
-        this.valorDesconto = BigDecimal.ZERO;
-        this.valorFrete = BigDecimal.ZERO;
+        this.valorAcrescimo = dadosCadastroAluguel.valorAcrescimo();
+        this.valorDesconto = dadosCadastroAluguel.valorDesconto();
+        this.valorFrete = dadosCadastroAluguel.valorFrete();
     }
 
     public void calcularValorTotal() {
