@@ -6,11 +6,13 @@ import { ItemCard } from "./components/ItemCard";
 
 // Serviços
 import { itemService } from "../../services/itemService";
+import { ModalNovoItem } from "./components/ModalNovoItem";
 
 export default function ItensPage() {
   const navigate = useNavigate();
   const [itens, setItens] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     carregarItens();
@@ -25,6 +27,10 @@ export default function ItensPage() {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleSalvarItem = (dadosDoFormulario) => {
+    setIsModalOpen(false);
   };
 
   const handleEditar = (id) => {
@@ -53,6 +59,7 @@ export default function ItensPage() {
           </div>
 
           <button
+            onClick={() => setIsModalOpen(true)}
             data-replit-metadata="artifacts/festa-gestor/src/components/ui/button.tsx:46:6"
             data-component-name="Comp"
             className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 bg-primary text-primary-foreground shadow hover:bg-primary/90 h-9 px-4 py-2 shrink-0 gap-2"
@@ -123,6 +130,11 @@ export default function ItensPage() {
             )}
         </div>
       </div>
+      <ModalNovoItem
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onSalvar={handleSalvarItem}
+        />
     </div>
   );
 }
