@@ -3,6 +3,7 @@
 /* Aqui nós injetamos o Design System do Festagestor no Tailwind v4 */
 @theme {
   --color-primary: #2563EB;
+  --color-primary-foreground: #FFFFFF;
   --color-primary-dark: #1E3A8A;
   --color-confirmed: #10B100;
   --color-success: #10B981;

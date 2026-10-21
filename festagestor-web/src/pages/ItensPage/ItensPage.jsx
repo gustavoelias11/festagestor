@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-//import { useForm } from "react-hook-form";
 import { Sidebar } from "../../components/layout/Sidebar";
 import { ItemCard } from "./components/ItemCard";
 
@@ -13,6 +12,7 @@ export default function ItensPage() {
   const [itens, setItens] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [errosDaApi, setErrosDaApi] = useState(null);
 
   useEffect(() => {
     carregarItens();
@@ -29,8 +29,21 @@ export default function ItensPage() {
     }
   };
 
-  const handleSalvarItem = (dadosDoFormulario) => {
-    setIsModalOpen(false);
+  const handleSalvarItem = async (dadosDoFormulario) => {
+    try {
+      const novosItens = await itemService.cadastrar(dadosDoFormulario);
+
+      setItens((listaAnterior) => [...listaAnterior, ...novosItens]);
+
+      setIsModalOpen(false);
+    } catch (error) {
+      if (error.response && error.response.status === 400) {
+        console.error("A API do Java rejeitou os dados:", error.response.data);
+        setErrosDaApi(error.response.data);
+      } else {
+        alert("Erro de conexão com o servidor.");
+      }
+    }
   };
 
   const handleEditar = (id) => {
@@ -134,6 +147,7 @@ export default function ItensPage() {
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         onSalvar={handleSalvarItem}
+        errosBackend={errosDaApi}
         />
     </div>
   );

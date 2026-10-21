@@ -98,7 +98,7 @@ export default function LoginPage() {
               </div>
 
               <button 
-                className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md font-medium transition-colors bg-blue-600 text-white shadow hover:bg-blue-700 px-4 py-2 w-full h-11 text-base mt-2 disabled:opacity-70 disabled:cursor-not-allowed" 
+                className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md font-medium transition-colors bg-blue-600 text-white shadow hover:bg-blue-700 px-4 py-2 w-full h-11 text-base mt-2 disabled:opacity-70 disabled:cursor-not-allowed cursor-pointer" 
                 type="submit"
                 disabled={loading}
               >
