@@ -8,15 +8,10 @@ import { itemService } from "../../services/itemService";
 import { ModalNovoItem } from "./components/ModalNovoItem";
 
 export default function ItensPage() {
-  const navigate = useNavigate();
   const [itens, setItens] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [errosDaApi, setErrosDaApi] = useState(null);
-
-  useEffect(() => {
-    carregarItens();
-  }, []);
 
   const carregarItens = async () => {
     try {
@@ -28,6 +23,10 @@ export default function ItensPage() {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    carregarItens();
+  }, []);
 
   const handleSalvarItem = async (dadosDoFormulario) => {
     try {

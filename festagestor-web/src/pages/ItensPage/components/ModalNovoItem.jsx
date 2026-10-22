@@ -1,11 +1,11 @@
 import { useEffect } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 
 export function ModalNovoItem({ isOpen, onClose, onSalvar, errosBackend }) {
   const {
     register,
     handleSubmit,
-    watch,
+    control,
     formState: { errors, isValid },
     reset,
   } = useForm({
@@ -19,7 +19,11 @@ export function ModalNovoItem({ isOpen, onClose, onSalvar, errosBackend }) {
     }
   }, [isOpen, reset]);
 
-  const tipoItem = watch("tipo");
+  const tipoItem = useWatch({
+    control,
+    name: "tipo",
+    defaultValue: "brinquedo"
+  });
 
   if (!isOpen) return null;
 

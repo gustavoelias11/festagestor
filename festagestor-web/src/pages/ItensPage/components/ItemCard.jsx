@@ -50,8 +50,14 @@ export function ItemCard({ item, onEditar, onExcluir }) {
             {statusFormatado}
           </div>
         </div>
-        <h3 className="font-semibold text-lg leading-tight mb-1">{item.nome}</h3>
-        <p className="text-sm text-muted-foreground mb-4">{tipoFormatado}</p>
+        <h3 className="font-semibold text-lg leading-tight mb-1">
+          {item.nome}
+        </h3>
+        <div className="flex items-center gap-2 text-sm text-muted-foreground mb-4">
+          <span>{tipoFormatado}</span>
+          <span className="w-1 h-1 rounded-full bg-gray-300"></span>
+          <span>Cód: {item.id}</span>
+        </div>
         <div className="flex items-center justify-between mt-auto pt-4 border-t border-gray-100">
           <div>
             <p className="font-bold text-primary">
