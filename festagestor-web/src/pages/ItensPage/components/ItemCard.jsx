@@ -1,4 +1,4 @@
-export function formatarMoeda(valor) {
+function formatarMoeda(valor) {
   return new Intl.NumberFormat("pt-BR", {
     style: "currency",
     currency: "BRL",
@@ -30,9 +30,9 @@ export function ItemCard({ item, onEditar, onExcluir }) {
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
               className="lucide lucide-package w-5 h-5"
               aria-hidden="true"
             >
@@ -69,7 +69,7 @@ export function ItemCard({ item, onEditar, onExcluir }) {
               data-replit-metadata="artifacts/festa-gestor/src/components/ui/button.tsx:46:6"
               data-component-name="Comp"
               onClick={() => onEditar(item.id)}
-              className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 hover:bg-accent hover:text-accent-foreground h-9 w-9"
+              className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 hover:bg-accent hover:text-accent-foreground h-9 w-9"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -78,9 +78,9 @@ export function ItemCard({ item, onEditar, onExcluir }) {
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
                 className="lucide lucide-pen w-4 h-4 text-muted-foreground"
                 aria-hidden="true"
               >
@@ -91,7 +91,7 @@ export function ItemCard({ item, onEditar, onExcluir }) {
               data-replit-metadata="artifacts/festa-gestor/src/components/ui/button.tsx:46:6"
               data-component-name="Comp"
               onClick={() => onExcluir(item.id)}
-              className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 hover:bg-accent hover:text-accent-foreground h-9 w-9"
+              className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 hover:bg-accent hover:text-accent-foreground h-9 w-9"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -100,9 +100,9 @@ export function ItemCard({ item, onEditar, onExcluir }) {
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
                 className="lucide lucide-trash2 lucide-trash-2 w-4 h-4 text-destructive"
                 aria-hidden="true"
               >

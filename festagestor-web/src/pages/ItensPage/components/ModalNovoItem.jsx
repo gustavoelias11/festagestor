@@ -60,7 +60,7 @@ export function ModalNovoItem({ isOpen, onClose, onSalvar, errosBackend }) {
             </label>
             <select
               {...register("tipo", { required: "O tipo é obrigatório" })}
-              className="h-10 w-full rounded-md border border-gray-300 px-3 text-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+              className="h-10 w-full rounded-md border border-gray-300 px-3 text-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary cursor-pointer"
             >
               <option value="brinquedo">Brinquedo</option>
               <option value="decoracao">Decoração</option>
@@ -211,13 +211,13 @@ export function ModalNovoItem({ isOpen, onClose, onSalvar, errosBackend }) {
             <button
               type="button"
               onClick={onClose}
-              className="rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-semibold text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-400"
+              className="rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-semibold text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-400 cursor-pointer"
             >
               Cancelar
             </button>
             <button
               type="submit"
-              className={`rounded-md px-4 py-2 text-sm font-semibold text-white focus:outline-none focus:ring-2 transition-colors ${
+              className={`rounded-md px-4 py-2 text-sm font-semibold text-white focus:outline-none focus:ring-2 transition-colors cursor-pointer ${
                 isValid
                   ? "bg-green-600 hover:bg-green-700 focus:ring-green-500"
                   : "bg-gray-400 hover:bg-gray-400 focus:ring-gray-400"
