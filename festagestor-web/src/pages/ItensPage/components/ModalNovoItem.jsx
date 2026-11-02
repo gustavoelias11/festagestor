@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useForm, useWatch } from "react-hook-form";
+import { useForm, useWatch, Controller } from "react-hook-form";
 
 export function ModalNovoItem({ isOpen, onClose, onSalvar, errosBackend }) {
   const {
@@ -9,7 +9,7 @@ export function ModalNovoItem({ isOpen, onClose, onSalvar, errosBackend }) {
     formState: { errors, isValid },
     reset,
   } = useForm({
-    defaultValues: { tipo: "brinquedo", status: "DISPONIVEL" },
+    defaultValues: { tipo: "brinquedo", status: "DISPONIVEL", precoAluguel: "" },
     mode: "onChange",
   });
 
@@ -22,8 +22,32 @@ export function ModalNovoItem({ isOpen, onClose, onSalvar, errosBackend }) {
   const tipoItem = useWatch({
     control,
     name: "tipo",
-    defaultValue: "brinquedo"
+    defaultValue: "brinquedo",
   });
+
+  const mascararMoeda = (valorDigitado) => {
+    if (!valorDigitado) return "";
+
+    const apenasNumeros = valorDigitado.replace(/\D/g, "");
+    const valorDecimal = Number(apenasNumeros) / 100;
+
+    return new Intl.NumberFormat("pt-BR", {
+      style: "currency",
+      currency: "BRL",
+    }).format(valorDecimal);
+  };
+
+  const prepararEnvioParaBackend = (dadosDoFormulario) => {
+    const precoSujo = dadosDoFormulario.precoAluguel ?? "";
+    const precoLimpo = Number(precoSujo.replace(/\D/g, "")) / 100;
+
+    const payloadSanitizado = {
+      ...dadosDoFormulario,
+      precoAluguel: precoLimpo,
+    };
+
+    onSalvar(payloadSanitizado);
+  };
 
   if (!isOpen) return null;
 
@@ -53,7 +77,10 @@ export function ModalNovoItem({ isOpen, onClose, onSalvar, errosBackend }) {
           </div>
         )}
 
-        <form onSubmit={handleSubmit(onSalvar)} className="space-y-4">
+        <form
+          onSubmit={handleSubmit(prepararEnvioParaBackend)}
+          className="space-y-4"
+        >
           <div>
             <label className="mb-1 block text-sm font-semibold text-slate-700">
               Tipo do Item
@@ -112,15 +139,33 @@ export function ModalNovoItem({ isOpen, onClose, onSalvar, errosBackend }) {
             <label className="mb-1 block text-sm font-semibold text-slate-700">
               Preço
             </label>
-            <input
-              type="number"
-              placeholder="R$ 0,00"
-              min="0"
-              step="0.01"
-              {...register("precoAluguel", {
+            <Controller
+              name="precoAluguel"
+              control={control}
+              defaultValue=""
+              rules={{
                 required: "O preço é obrigatório!",
-              })}
-              className="h-10 w-full rounded-md border border-gray-300 px-3 text-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+                validate: (valorAtual) => {
+                  const apenasNumeros = (valorAtual ?? "").replace(/\D/g, "");
+                  return (
+                    Number(apenasNumeros) > 0 ||
+                    "O preço deve ser maior que zero!"
+                  );
+                },
+              }}
+              render={({ field: { onChange, value } }) => (
+                <input
+                  type="text"
+                  placeholder="R$ 0,00"
+                  className="h-10 w-full rounded-md border border-gray-300 px-3 text-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+                  value={value}
+                  onChange={(e) => {
+                    const valorCru = e.target.value;
+                    const valorFormatado = mascararMoeda(valorCru);
+                    onChange(valorFormatado);
+                  }}
+                />
+              )}
             />
             {errors.precoAluguel && (
               <span className="text-xs font-semibold text-red-500">
