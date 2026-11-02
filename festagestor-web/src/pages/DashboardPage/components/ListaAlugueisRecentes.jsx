@@ -1,9 +1,4 @@
-export function formatarMoeda(valor) {
-  return new Intl.NumberFormat("pt-BR", {
-    style: "currency",
-    currency: "BRL",
-  }).format(valor);
-}
+import { formatarMoeda } from "../../../utils/formatters";
 
 export function ListaAlugueisRecentes({ alugueis, loading, onAluguelClick }) {
   const getBadgeStyle = (status) => {
@@ -108,7 +103,7 @@ export function ListaAlugueisRecentes({ alugueis, loading, onAluguelClick }) {
                       <path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"></path>
                       <circle cx="12" cy="10" r="3"></circle>
                     </svg>
-                    <span className="line-clamp-2 break-words">
+                    <span className="line-clamp-2 wrap-break-word">
                       {`${aluguel.endereco.logradouro}, ${aluguel.endereco.numero} - ${aluguel.endereco.uf}`}
                     </span>
                   </div>

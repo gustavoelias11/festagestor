@@ -1,9 +1,4 @@
-function formatarMoeda(valor) {
-  return new Intl.NumberFormat("pt-BR", {
-    style: "currency",
-    currency: "BRL",
-  }).format(valor);
-}
+import { formatarMoeda } from "../../../utils/formatters";
 
 export function ItemCard({ item, onEditar, onExcluir }) {
   const tipoFormatado = item.tipo
@@ -45,7 +40,7 @@ export function ItemCard({ item, onEditar, onExcluir }) {
           <div
             data-replit-metadata="artifacts/festa-gestor/src/components/ui/badge.tsx:34:4"
             data-component-name="div"
-            className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent bg-[#10B981] text-white"
+            className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent bg-sucess text-white"
           >
             {statusFormatado}
           </div>

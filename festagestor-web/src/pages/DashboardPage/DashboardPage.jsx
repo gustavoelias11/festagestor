@@ -5,6 +5,7 @@ import { Sidebar } from "../../components/layout/Sidebar";
 import { StatCard } from "./components/StatCard";
 import { ModalEdicaoAluguel } from "./components/ModalEdicaoAluguel";
 import { ListaAlugueisRecentes } from "./components/ListaAlugueisRecentes";
+import { formatarMoeda } from "../../utils/formatters";
 
 // Serviços
 import { atualizarStatusAluguel, listarAlugueisRecentes } from "../../services/aluguelService";
@@ -108,7 +109,7 @@ export default function DashboardPage() {
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6 text-primary-dark"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><path d="M16 3.128a4 4 0 0 1 0 7.744"></path><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><circle cx="9" cy="7" r="4"></circle></svg>
             </StatCard>
 
-            <StatCard titulo="Faturamento" valor={`R$ ${resumo.faturamento}`} corFundoIcone="bg-success/10">
+            <StatCard titulo="Faturamento" valor={formatarMoeda(resumo.faturamento)} corFundoIcone="bg-success/10">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6 text-success"><path d="M16 7h6v6"></path><path d="m22 7-8.5 8.5-5-5L2 17"></path></svg>
             </StatCard>
           </div>
