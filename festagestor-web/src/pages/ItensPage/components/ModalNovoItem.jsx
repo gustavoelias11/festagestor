@@ -9,7 +9,11 @@ export function ModalNovoItem({ isOpen, onClose, onSalvar, errosBackend }) {
     formState: { errors, isValid },
     reset,
   } = useForm({
-    defaultValues: { tipo: "brinquedo", status: "DISPONIVEL", precoAluguel: "" },
+    defaultValues: {
+      tipo: "brinquedo",
+      status: "DISPONIVEL",
+      precoAluguel: "",
+    },
     mode: "onChange",
   });
 
@@ -183,6 +187,7 @@ export function ModalNovoItem({ isOpen, onClose, onSalvar, errosBackend }) {
               min="0"
               {...register("quantidade", {
                 required: "A quantidade é obrigatória!",
+                valueAsNumber: true,
               })}
               className="h-10 w-full rounded-md border border-gray-300 px-3 text-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
             />
@@ -204,6 +209,7 @@ export function ModalNovoItem({ isOpen, onClose, onSalvar, errosBackend }) {
                   min="0"
                   {...register("capacidade", {
                     required: "A capacidade é obrigatória!",
+                    valueAsNumber: true,
                   })}
                   className="h-10 w-full rounded-md border border-gray-300 px-3 text-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
                 />
