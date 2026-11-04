@@ -1,4 +1,5 @@
 import { formatarMoeda } from "../../../utils/formatters";
+import { Package, Pen, Trash2 } from "lucide-react";
 
 export function ItemCard({ item, onEditar, onExcluir }) {
   const tipoFormatado = item.tipo
@@ -18,24 +19,7 @@ export function ItemCard({ item, onEditar, onExcluir }) {
       >
         <div className="flex justify-between items-start mb-4">
           <div className="bg-primary/10 p-2.5 rounded-lg text-primary">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="lucide lucide-package w-5 h-5"
-              aria-hidden="true"
-            >
-              <path d="M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z"></path>
-              <path d="M12 22V12"></path>
-              <polyline points="3.29 7 12 12 20.71 7"></polyline>
-              <path d="m7.5 4.27 9 5.15"></path>
-            </svg>
+            <Package className="w-5 h-5" />
           </div>
           <div
             data-replit-metadata="artifacts/festa-gestor/src/components/ui/badge.tsx:34:4"
@@ -64,49 +48,17 @@ export function ItemCard({ item, onEditar, onExcluir }) {
               data-replit-metadata="artifacts/festa-gestor/src/components/ui/button.tsx:46:6"
               data-component-name="Comp"
               onClick={() => onEditar(item.id)}
-              className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 hover:bg-accent hover:text-accent-foreground h-9 w-9"
+              className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-9 w-9 hover:scale-105 transition-all duration-200"
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="lucide lucide-pen w-4 h-4 text-muted-foreground"
-                aria-hidden="true"
-              >
-                <path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"></path>
-              </svg>
+              <Pen className="w-4 h-4 text-muted-foreground" />
             </button>
             <button
               data-replit-metadata="artifacts/festa-gestor/src/components/ui/button.tsx:46:6"
               data-component-name="Comp"
               onClick={() => onExcluir(item.id)}
-              className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 hover:bg-accent hover:text-accent-foreground h-9 w-9"
+              className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-9 w-9 hover:scale-105 transition-all duration-200"
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="lucide lucide-trash2 lucide-trash-2 w-4 h-4 text-destructive"
-                aria-hidden="true"
-              >
-                <path d="M10 11v6"></path>
-                <path d="M14 11v6"></path>
-                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"></path>
-                <path d="M3 6h18"></path>
-                <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
-              </svg>
+              <Trash2 className="w-4 h-4 text-destructive" />
             </button>
           </div>
         </div>
