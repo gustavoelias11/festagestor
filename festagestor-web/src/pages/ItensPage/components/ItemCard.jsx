@@ -10,11 +10,22 @@ export function ItemCard({ item, onEditar, onExcluir }) {
     ? item.status.charAt(0).toUpperCase() + item.status.slice(1).toLowerCase()
     : "Não definido";
 
+    const getBadgeStyle = (status) => {
+    switch (status) {
+      case "DISPONIVEL":
+        return "bg-confirmed text-white border-transparent";
+      case "ALUGADO":
+        return "bg-primary text-white border-transparent";
+      case "MANUTENCAO":
+        return "bg-danger text-white border-transparent";
+      default:
+        return "bg-gray-200 text-foreground border-transparent";
+    }
+  };
+
   return (
     <div className="rounded-xl border border-gray-200 bg-white text-slate-900 shadow-sm hover:shadow-md transition-shadow">
       <div
-        data-replit-metadata="artifacts/festa-gestor/src/components/ui/card.tsx:59:2"
-        data-component-name="div"
         className="p-5"
       >
         <div className="flex justify-between items-start mb-4">
@@ -22,9 +33,7 @@ export function ItemCard({ item, onEditar, onExcluir }) {
             <Package className="w-5 h-5" />
           </div>
           <div
-            data-replit-metadata="artifacts/festa-gestor/src/components/ui/badge.tsx:34:4"
-            data-component-name="div"
-            className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent bg-sucess text-white"
+            className={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold ${getBadgeStyle(item.status)}`}
           >
             {statusFormatado}
           </div>
@@ -45,16 +54,12 @@ export function ItemCard({ item, onEditar, onExcluir }) {
           </div>
           <div className="flex gap-2">
             <button
-              data-replit-metadata="artifacts/festa-gestor/src/components/ui/button.tsx:46:6"
-              data-component-name="Comp"
               onClick={() => onEditar(item.id)}
               className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-9 w-9 hover:scale-105 transition-all duration-200"
             >
               <Pen className="w-4 h-4 text-muted-foreground" />
             </button>
             <button
-              data-replit-metadata="artifacts/festa-gestor/src/components/ui/button.tsx:46:6"
-              data-component-name="Comp"
               onClick={() => onExcluir(item.id)}
               className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-9 w-9 hover:scale-105 transition-all duration-200"
             >
