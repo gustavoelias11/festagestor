@@ -3,7 +3,8 @@ import { Sidebar } from "../../components/layout/Sidebar";
 import { ItemCard } from "./components/ItemCard";
 import { itemService } from "../../services/itemService";
 import { ModalNovoItem } from "./components/ModalNovoItem";
-import { ConfirmModal } from "../../components/ui/ConfirmModal"; // Ajuste o caminho conforme onde você salvou
+import { ConfirmModal } from "../../components/ui/ConfirmModal";
+import { ModalAlteraItem } from "./components/ModalAlteraItem";
 
 export default function ItensPage() {
   const [itens, setItens] = useState([]);
@@ -14,6 +15,8 @@ export default function ItensPage() {
   // Novos estados para o Modal de Exclusão
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
   const [itemParaExcluir, setItemParaExcluir] = useState(null);
+
+  const [itemParaEditar, setItemParaEditar] = useState(null);
 
   useEffect(() => {
     let isMounted = true; 
@@ -56,8 +59,25 @@ export default function ItensPage() {
   };
 
   const handleEditar = (id) => {
-    console.log("Abrindo modal para editar evento:", id);
+    const itemEncontrado = itens.find(item => item.id === id);
+    setItemParaEditar(itemEncontrado);
   };
+
+  const handleFecharModalAlteracao = () => {
+    setItemParaEditar(null);
+  };
+
+  const handleEditarItem = async (payload) => {
+    try {
+      const itemAtualizado = await itemService.atualizar(payload.id, payload);
+      setItens((listaAtual) => listaAtual.map(item =>
+        item.id === itemAtualizado.id ? itemAtualizado : item
+      ));
+      setItemParaEditar(null)
+    } catch (error) {
+    console.error("Erro ao atualizar no Java:", error);
+  };
+};
 
   // 1. Apenas abre o modal e guarda qual ID será excluído
   const handleExcluirClick = (id) => {
@@ -147,6 +167,13 @@ export default function ItensPage() {
         confirmText="Excluir"
         cancelText="Cancelar"
         isDestructive={true}
+      />
+
+      <ModalAlteraItem 
+        isOpen={!!itemParaEditar}
+        onClose={() => setItemParaEditar(null)}
+        itemSelecionado={itemParaEditar}
+        onSalvar={handleEditarItem}
       />
     </div>
   );
