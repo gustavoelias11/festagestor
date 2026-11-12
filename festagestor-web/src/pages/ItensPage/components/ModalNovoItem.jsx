@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useForm, useWatch, Controller } from "react-hook-form";
+import { mascararMoeda } from "../../../utils/formatters";
 
 export function ModalNovoItem({ isOpen, onClose, onSalvar, errosBackend }) {
   const {
@@ -28,18 +29,6 @@ export function ModalNovoItem({ isOpen, onClose, onSalvar, errosBackend }) {
     name: "tipo",
     defaultValue: "brinquedo",
   });
-
-  const mascararMoeda = (valorDigitado) => {
-    if (!valorDigitado) return "";
-
-    const apenasNumeros = valorDigitado.replace(/\D/g, "");
-    const valorDecimal = Number(apenasNumeros) / 100;
-
-    return new Intl.NumberFormat("pt-BR", {
-      style: "currency",
-      currency: "BRL",
-    }).format(valorDecimal);
-  };
 
   const prepararEnvioParaBackend = (dadosDoFormulario) => {
     const precoSujo = dadosDoFormulario.precoAluguel ?? "";

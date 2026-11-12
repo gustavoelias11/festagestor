@@ -63,10 +63,6 @@ export default function ItensPage() {
     setItemParaEditar(itemEncontrado);
   };
 
-  const handleFecharModalAlteracao = () => {
-    setItemParaEditar(null);
-  };
-
   const handleEditarItem = async (payload) => {
     try {
       const itemAtualizado = await itemService.atualizar(payload.id, payload);
