@@ -5,6 +5,7 @@ import { itemService } from "../../services/itemService";
 import { ModalNovoItem } from "./components/ModalNovoItem";
 import { ConfirmModal } from "../../components/ui/ConfirmModal";
 import { ModalAlteraItem } from "./components/ModalAlteraItem";
+import { ModalDetalhesItem } from "./components/ModalDetalhesItem";
 
 export default function ItensPage() {
   const [itens, setItens] = useState([]);
@@ -14,8 +15,8 @@ export default function ItensPage() {
   const [termoBusca, setTermoBusca] = useState("");
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
   const [itemParaExcluir, setItemParaExcluir] = useState(null);
-
   const [itemParaEditar, setItemParaEditar] = useState(null);
+  const [itemDetalhe, setItemDetalhe] = useState(null)
 
   useEffect(() => {
     let isMounted = true;
@@ -196,6 +197,7 @@ export default function ItensPage() {
               <ItemCard
                 key={item.id}
                 item={item}
+                onDetalhe={() => setItemDetalhe(item)}
                 onEditar={handleEditar}
                 onExcluir={handleExcluirClick}
               />
@@ -230,6 +232,12 @@ export default function ItensPage() {
         onClose={() => setItemParaEditar(null)}
         itemSelecionado={itemParaEditar}
         onSalvar={handleEditarItem}
+      />
+
+      <ModalDetalhesItem
+        isOpen={!!itemDetalhe}
+        onClose={() => setItemDetalhe(null)}
+        item={itemDetalhe}
       />
     </div>
   );

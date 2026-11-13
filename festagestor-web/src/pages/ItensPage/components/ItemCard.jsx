@@ -1,7 +1,7 @@
 import { formatarMoeda } from "../../../utils/formatters";
 import { Package, Pen, Trash2 } from "lucide-react";
 
-export function ItemCard({ item, onEditar, onExcluir }) {
+export function ItemCard({ item, onEditar, onExcluir, onDetalhe }) {
   const tipoFormatado = item.tipo
     ? item.tipo.charAt(0).toUpperCase() + item.tipo.slice(1)
     : "Não definido";
@@ -24,7 +24,7 @@ export function ItemCard({ item, onEditar, onExcluir }) {
   };
 
   return (
-    <div className="rounded-xl border border-gray-200 bg-white text-slate-900 shadow-sm hover:shadow-md transition-shadow">
+    <div className="rounded-xl border border-gray-200 bg-white text-slate-900 shadow-sm hover:shadow-md transition-shadow cursor-pointer" onClick={() => onDetalhe(item)}>
       <div
         className="p-5"
       >
@@ -54,13 +54,17 @@ export function ItemCard({ item, onEditar, onExcluir }) {
           </div>
           <div className="flex gap-2">
             <button
-              onClick={() => onEditar(item.id)}
+              onClick={(e) =>  {
+                e.stopPropagation();
+                onEditar(item.id)}}
               className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-9 w-9 hover:scale-105 transition-all duration-200"
             >
               <Pen className="w-4 h-4 text-muted-foreground cursor-pointer" />
             </button>
             <button
-              onClick={() => onExcluir(item.id)}
+              onClick={(e) => {
+                e.stopPropagation();
+                onExcluir(item.id)}}
               className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-9 w-9 hover:scale-105 transition-all duration-200"
             >
               <Trash2 className="w-4 h-4 text-destructive cursor-pointer" />
