@@ -6,6 +6,7 @@ import { ModalNovoItem } from "./components/ModalNovoItem";
 import { ConfirmModal } from "../../components/ui/ConfirmModal";
 import { ModalAlteraItem } from "./components/ModalAlteraItem";
 import { ModalDetalhesItem } from "./components/ModalDetalhesItem";
+import { Plus, Search } from "lucide-react";
 
 export default function ItensPage() {
   const [itens, setItens] = useState([]);
@@ -140,44 +141,14 @@ export default function ItensPage() {
             onClick={() => setIsModalOpen(true)}
             className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground shadow hover:bg-primary/90 h-9 px-4 py-2 shrink-0 gap-2 cursor-pointer"
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="lucide lucide-plus w-4 h-4"
-              aria-hidden="true"
-            >
-              <path d="M5 12h14"></path>
-              <path d="M12 5v14"></path>
-            </svg>
+            <Plus className="lucide lucide-plus w-4 h-4"/>
             Novo Item
           </button>
         </div>
 
         <div className="flex gap-4 mb-6">
           <div className="relative flex-1 max-w-md">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="lucide lucide-search absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground"
-              aria-hidden="true"
-            >
-              <path d="m21 21-4.34-4.34"></path>
-              <circle cx="11" cy="11" r="8"></circle>
-            </svg>
+            <Search className="lucide lucide-search absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground"/>
             <input
               className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 pl-9"
               placeholder="Buscar itens..."
