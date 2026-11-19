@@ -1,6 +1,7 @@
 // pages/DashboardPage/DashboardPage.jsx
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { CalendarDays, Package, TrendingUp, Users } from "lucide-react";
 import { Sidebar } from "../../components/layout/Sidebar";
 import { StatCard } from "./components/StatCard";
 import { ModalEdicaoAluguel } from "./components/ModalEdicaoAluguel";
@@ -98,19 +99,19 @@ export default function DashboardPage() {
           {/* Cards Dinâmicos */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
             <StatCard titulo="Itens Cadastrados" valor={resumo.itensCadastrados} corFundoIcone="bg-primary/10">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6 text-primary"><path d="M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z"></path><path d="M12 22V12"></path><polyline points="3.29 7 12 12 20.71 7"></polyline><path d="m7.5 4.27 9 5.15"></path></svg>
+              <Package className="w-6 h-6 text-primary" />
             </StatCard>
 
             <StatCard titulo="Aluguéis este Mês" valor={resumo.alugueisMes} corFundoIcone="bg-success/10">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6 text-success"><path d="M8 2v4"></path><path d="M16 2v4"></path><rect width="18" height="18" x="3" y="4" rx="2"></rect><path d="M3 10h18"></path><path d="M8 14h.01"></path><path d="M12 14h.01"></path><path d="M16 14h.01"></path><path d="M8 18h.01"></path><path d="M12 18h.01"></path><path d="M16 18h.01"></path></svg>
+              <CalendarDays className="w-6 h-6 text-success" />
             </StatCard>
 
             <StatCard titulo="Clientes Ativos" valor={resumo.clientesAtivos} corFundoIcone="bg-primary-dark/10">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6 text-primary-dark"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><path d="M16 3.128a4 4 0 0 1 0 7.744"></path><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><circle cx="9" cy="7" r="4"></circle></svg>
+              <Users className="w-6 h-6 text-primary-dark" />
             </StatCard>
 
             <StatCard titulo="Faturamento" valor={formatarMoeda(resumo.faturamento)} corFundoIcone="bg-success/10">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6 text-success"><path d="M16 7h6v6"></path><path d="m22 7-8.5 8.5-5-5L2 17"></path></svg>
+              <TrendingUp className="w-6 h-6 text-success" />
             </StatCard>
           </div>
 

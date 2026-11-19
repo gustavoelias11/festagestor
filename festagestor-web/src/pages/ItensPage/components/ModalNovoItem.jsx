@@ -1,8 +1,29 @@
 import { useEffect } from "react";
 import { useForm, useWatch, Controller } from "react-hook-form";
+import { Loader2, X } from "lucide-react";
 import { mascararMoeda } from "../../../utils/formatters";
 
-export function ModalNovoItem({ isOpen, onClose, onSalvar, errosBackend }) {
+function normalizarErrosBackend(errosBackend) {
+  if (!errosBackend) return [];
+  if (Array.isArray(errosBackend)) {
+    return errosBackend.map((erro, index) => ({
+      id: erro.campo ?? index,
+      texto: erro.campo ? `O campo ${erro.campo}: ${erro.mensagem}` : String(erro.mensagem ?? erro),
+    }));
+  }
+  if (typeof errosBackend === "object" && errosBackend.mensagem) {
+    return [{ id: "mensagem", texto: errosBackend.mensagem }];
+  }
+  return [{ id: "erro", texto: String(errosBackend) }];
+}
+
+export function ModalNovoItem({
+  isOpen,
+  onClose,
+  onSalvar,
+  errosBackend,
+  isSubmitting = false,
+}) {
   const {
     register,
     handleSubmit,
@@ -24,6 +45,15 @@ export function ModalNovoItem({ isOpen, onClose, onSalvar, errosBackend }) {
     }
   }, [isOpen, reset]);
 
+  useEffect(() => {
+    if (!isOpen) return;
+    const handleKeyDown = (e) => {
+      if (e.key === "Escape" && !isSubmitting) onClose();
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [isOpen, isSubmitting, onClose]);
+
   const tipoItem = useWatch({
     control,
     name: "tipo",
@@ -44,27 +74,41 @@ export function ModalNovoItem({ isOpen, onClose, onSalvar, errosBackend }) {
 
   if (!isOpen) return null;
 
+  const listaErrosBackend = normalizarErrosBackend(errosBackend);
+
   return (
     <div
-      className="fixed inset-0 z-40 flex items-center justify-center bg-black/50 backdrop-blur-sm"
-      onClick={onClose}
+      className="fixed inset-0 z-40 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4"
+      onClick={() => !isSubmitting && onClose()}
     >
       <div
-        className="w-full max-w-md rounded-xl bg-white p-6 shadow-xl z-50"
+        className="w-full max-w-md rounded-xl bg-surface p-6 shadow-xl z-50 max-h-[90vh] overflow-y-auto"
         onClick={(e) => e.stopPropagation()}
       >
-        <h2 className="mb-4 text-xl font-bold text-slate-800">Novo Item</h2>
+        <div className="mb-4 flex items-center justify-between">
+          <h2 className="text-xl font-bold text-foreground">Novo Item</h2>
+          <button
+            type="button"
+            aria-label="Fechar modal"
+            disabled={isSubmitting}
+            onClick={onClose}
+            className="text-muted-foreground hover:text-foreground transition-colors cursor-pointer p-1 rounded-full hover:bg-accent disabled:opacity-50"
+          >
+            <X className="w-5 h-5" />
+          </button>
+        </div>
 
-        {errosBackend && (
-          <div className="mb-4 rounded-md bg-red-50 p-4 border border-red-200">
-            <h3 className="text-sm font-bold text-red-800">
-              Foram encontrados os seguintes erros:
+        {listaErrosBackend.length > 0 && (
+          <div
+            role="alert"
+            className="mb-4 rounded-md bg-danger/10 p-4 border border-danger/20"
+          >
+            <h3 className="text-sm font-bold text-danger">
+              Não foi possível salvar o item:
             </h3>
-            <ul className="mt-2 text-sm text-red-700 list-disc list-inside">
-              {errosBackend.map((erro) => (
-                <li key={erro.campo}>
-                  O campo <strong>{erro.campo}</strong> {erro.mensagem}
-                </li>
+            <ul className="mt-2 text-sm text-danger list-disc list-inside space-y-1">
+              {listaErrosBackend.map((erro) => (
+                <li key={erro.id}>{erro.texto}</li>
               ))}
             </ul>
           </div>
@@ -168,20 +212,26 @@ export function ModalNovoItem({ isOpen, onClose, onSalvar, errosBackend }) {
           </div>
 
           <div>
-            <label className="mb-1 block text-sm font-semibold text-slate-700">
+            <label className="mb-1 block text-sm font-semibold text-foreground/80">
               Quantidade
             </label>
             <input
               type="number"
-              min="0"
+              min="1"
               {...register("quantidade", {
                 required: "A quantidade é obrigatória!",
                 valueAsNumber: true,
+                min: {
+                  value: 1,
+                  message: "A quantidade deve ser pelo menos 1!",
+                },
+                validate: (v) =>
+                  !Number.isNaN(v) || "Informe uma quantidade válida!",
               })}
-              className="h-10 w-full rounded-md border border-gray-300 px-3 text-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+              className="h-10 w-full rounded-md border border-input px-3 text-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
             />
             {errors.quantidade && (
-              <span className="text-xs font-semibold text-red-500">
+              <span className="text-xs font-semibold text-danger">
                 {errors.quantidade.message}
               </span>
             )}
@@ -190,26 +240,32 @@ export function ModalNovoItem({ isOpen, onClose, onSalvar, errosBackend }) {
           {tipoItem === "brinquedo" && (
             <div className="space-y-4">
               <div>
-                <label className="mb-1 block text-sm font-semibold text-slate-700">
+                <label className="mb-1 block text-sm font-semibold text-foreground/80">
                   Capacidade
                 </label>
                 <input
                   type="number"
-                  min="0"
+                  min="1"
                   {...register("capacidade", {
                     required: "A capacidade é obrigatória!",
                     valueAsNumber: true,
+                    min: {
+                      value: 1,
+                      message: "A capacidade deve ser maior que zero!",
+                    },
+                    validate: (v) =>
+                      !Number.isNaN(v) || "Informe uma capacidade válida!",
                   })}
-                  className="h-10 w-full rounded-md border border-gray-300 px-3 text-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+                  className="h-10 w-full rounded-md border border-input px-3 text-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
                 />
                 {errors.capacidade && (
-                  <span className="text-xs font-semibold text-red-500">
+                  <span className="text-xs font-semibold text-danger">
                     {errors.capacidade.message}
                   </span>
                 )}
               </div>
               <div>
-                <label className="mb-1 block text-sm font-semibold text-slate-700">
+                <label className="mb-1 block text-sm font-semibold text-foreground/80">
                   Dimensão
                 </label>
                 <input
@@ -217,10 +273,10 @@ export function ModalNovoItem({ isOpen, onClose, onSalvar, errosBackend }) {
                   {...register("dimensao", {
                     required: "A dimensão é obrigatória!",
                   })}
-                  className="h-10 w-full rounded-md border border-gray-300 px-3 text-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+                  className="h-10 w-full rounded-md border border-input px-3 text-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
                 />
                 {errors.dimensao && (
-                  <span className="text-xs font-semibold text-red-500">
+                  <span className="text-xs font-semibold text-danger">
                     {errors.dimensao.message}
                   </span>
                 )}
@@ -230,16 +286,16 @@ export function ModalNovoItem({ isOpen, onClose, onSalvar, errosBackend }) {
           {tipoItem === "decoracao" && (
             <div className="space-y-4">
               <div>
-                <label className="mb-1 block text-sm font-semibold text-slate-700">
+                <label className="mb-1 block text-sm font-semibold text-foreground/80">
                   Tema
                 </label>
                 <input
                   type="text"
                   {...register("tema", { required: "O tema é obrigatório!" })}
-                  className="h-10 w-full rounded-md border border-gray-300 px-3 text-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+                  className="h-10 w-full rounded-md border border-input px-3 text-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
                 />
                 {errors.tema && (
-                  <span className="text-xs font-semibold text-red-500">
+                  <span className="text-xs font-semibold text-danger">
                     {errors.tema.message}
                   </span>
                 )}
@@ -247,23 +303,26 @@ export function ModalNovoItem({ isOpen, onClose, onSalvar, errosBackend }) {
             </div>
           )}
 
-          <div className="mt-6 flex justify-end gap-3 border-t border-gray-100 pt-4">
+          <div className="mt-6 flex justify-end gap-3 border-t border-border/60 pt-4">
             <button
               type="button"
+              disabled={isSubmitting}
               onClick={onClose}
-              className="rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-semibold text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-400 cursor-pointer"
+              className="rounded-md border border-input bg-surface px-4 py-2 text-sm font-semibold text-foreground/80 hover:bg-accent focus:outline-none focus:ring-2 focus:ring-input cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
             >
               Cancelar
             </button>
             <button
               type="submit"
-              className={`rounded-md px-4 py-2 text-sm font-semibold text-white focus:outline-none focus:ring-2 transition-colors cursor-pointer ${
-                isValid
-                  ? "bg-green-600 hover:bg-green-700 focus:ring-green-500"
-                  : "bg-gray-400 hover:bg-gray-400 focus:ring-gray-400"
+              disabled={!isValid || isSubmitting}
+              className={`inline-flex items-center justify-center gap-2 rounded-md px-4 py-2 text-sm font-semibold text-white focus:outline-none focus:ring-2 transition-colors ${
+                isValid && !isSubmitting
+                  ? "bg-success hover:bg-success/90 focus:ring-success cursor-pointer"
+                  : "bg-muted-foreground/50 cursor-not-allowed"
               }`}
             >
-              Confirmar
+              {isSubmitting && <Loader2 className="w-4 h-4 animate-spin" />}
+              {isSubmitting ? "Salvando..." : "Confirmar"}
             </button>
           </div>
         </form>

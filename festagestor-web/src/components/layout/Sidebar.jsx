@@ -1,4 +1,5 @@
 import { Link, NavLink, useNavigate } from "react-router-dom";
+import { LayoutDashboard, LogOut, Package } from "lucide-react";
 
 export function Sidebar() {
   const navigate = useNavigate();
@@ -31,23 +32,7 @@ export function Sidebar() {
           }`
         }
       >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          className="w-5 h-5"
-        >
-          <rect width="7" height="9" x="3" y="3" rx="1"></rect>
-          <rect width="7" height="5" x="14" y="3" rx="1"></rect>
-          <rect width="7" height="9" x="14" y="12" rx="1"></rect>
-          <rect width="7" height="5" x="3" y="16" rx="1"></rect>
-        </svg>
+        <LayoutDashboard className="w-5 h-5" />
         Dashboard
       </NavLink>
       <NavLink
@@ -60,23 +45,7 @@ export function Sidebar() {
           }`
         }
       >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          className="w-5 h-5"
-        >
-          <path d="M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z"></path>
-          <path d="M12 22V12"></path>
-          <polyline points="3.29 7 12 12 20.71 7"></polyline>
-          <path d="m7.5 4.27 9 5.15"></path>
-        </svg>
+        <Package className="w-5 h-5" />
         Itens
       </NavLink>
 
@@ -96,22 +65,7 @@ export function Sidebar() {
             className="text-gray-400 hover:text-danger transition-colors shrink-0"
             title="Sair"
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="w-4 h-4"
-            >
-              <path d="m16 17 5-5-5-5"></path>
-              <path d="M21 12H9"></path>
-              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
-            </svg>
+            <LogOut className="w-4 h-4" />
           </button>
         </div>
       </div>

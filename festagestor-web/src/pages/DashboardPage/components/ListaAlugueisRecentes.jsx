@@ -1,3 +1,4 @@
+import { Banknote, MapPin } from "lucide-react";
 import { formatarMoeda } from "../../../utils/formatters";
 
 export function ListaAlugueisRecentes({ alugueis, loading, onAluguelClick }) {
@@ -65,22 +66,7 @@ export function ListaAlugueisRecentes({ alugueis, loading, onAluguelClick }) {
                 <div className="flex min-w-0 flex-col gap-2 md:border-l md:pl-5 border-gray-100">
                   {/* Bloco do Valor */}
                   <div className="flex items-center gap-2">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      className="h-4 w-4 shrink-0 text-success"
-                    >
-                      <rect width="20" height="12" x="2" y="6" rx="2"></rect>
-                      <circle cx="12" cy="12" r="2"></circle>
-                      <path d="M6 12h.01M18 12h.01"></path>
-                    </svg>
+                    <Banknote className="h-4 w-4 shrink-0 text-success" />
                     <span className="font-bold text-foreground">
                       {formatarMoeda(aluguel.valorTotal)}
                     </span>
@@ -88,21 +74,7 @@ export function ListaAlugueisRecentes({ alugueis, loading, onAluguelClick }) {
 
                   {/* Bloco do Endereço */}
                   <div className="flex min-w-0 items-start gap-2 text-sm text-gray-500">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      className="mt-0.5 h-4 w-4 shrink-0 text-primary"
-                    >
-                      <path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"></path>
-                      <circle cx="12" cy="10" r="3"></circle>
-                    </svg>
+                    <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
                     <span className="line-clamp-2 wrap-break-word">
                       {`${aluguel.endereco.logradouro}, ${aluguel.endereco.numero} - ${aluguel.endereco.uf}`}
                     </span>

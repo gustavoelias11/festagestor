@@ -1,11 +1,25 @@
+import { useEffect } from "react";
 import { Package, X } from "lucide-react";
-import { formatarMoeda } from "../../../utils/formatters"; // Ajuste o caminho se necessário
+import {
+  formatarMoeda,
+  formatarStatusItem,
+  formatarTipoItem,
+} from "../../../utils/formatters";
 
 export function ModalDetalhesItem({ isOpen, onClose, item }) {
+  useEffect(() => {
+    if (!isOpen) return;
+    const handleKeyDown = (e) => {
+      if (e.key === "Escape") onClose();
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [isOpen, onClose]);
+
   if (!isOpen || !item) return null;
 
-  const tipoFormatado = item.tipo ? item.tipo.charAt(0).toUpperCase() + item.tipo.slice(1) : "";
-  const statusFormatado = item.status ? item.status.charAt(0).toUpperCase() + item.status.slice(1).toLowerCase() : "";
+  const tipoFormatado = formatarTipoItem(item.tipo);
+  const statusFormatado = formatarStatusItem(item.status);
 
   return (
     <div 
@@ -13,22 +27,24 @@ export function ModalDetalhesItem({ isOpen, onClose, item }) {
       onClick={onClose}
     >
       <div 
-        className="w-full max-w-md rounded-xl bg-white shadow-xl flex flex-col max-h-[90vh]" 
+        className="w-full max-w-md rounded-xl bg-surface shadow-xl flex flex-col max-h-[90vh]" 
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex items-center justify-between border-b border-gray-100 p-6 pb-4">
+        <div className="flex items-center justify-between border-b border-border/60 p-6 pb-4">
           <div className="flex items-center gap-3">
             <div className="bg-primary/10 p-2.5 rounded-lg text-primary">
               <Package className="w-5 h-5" />
             </div>
             <div>
-              <h2 className="text-xl font-bold text-slate-800">{item.nome}</h2>
-              <span className="text-sm text-gray-500 font-medium">Cód: {item.id} • {tipoFormatado}</span>
+              <h2 className="text-xl font-bold text-foreground">{item.nome}</h2>
+              <span className="text-sm text-muted-foreground font-medium">Cód: {item.id} • {tipoFormatado}</span>
             </div>
           </div>
           <button 
+            type="button"
+            aria-label="Fechar detalhes"
             onClick={onClose}
-            className="text-gray-400 hover:text-gray-600 transition-colors cursor-pointer p-1 rounded-full hover:bg-gray-100"
+            className="text-muted-foreground hover:text-foreground transition-colors cursor-pointer p-1 rounded-full hover:bg-accent"
           >
             <X className="w-5 h-5" />
           </button>
